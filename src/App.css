@@ -58,23 +58,14 @@ main{
 
     background: var(--mint-cream) url('./assets/watercolour_background.jpg') no-repeat fixed center top;
     background-size: cover;
-
-
-
-    border: 6px solid teal;
     display: flex;
     flex-direction: column;
     align-items: center;
     flex-wrap: nowrap;
-
-
-
-
     gap:30px;
 }
 
 section{
-
     width: 60vw;
     flex: 0 0 auto;
     margin: 20px 0 20px 0;
