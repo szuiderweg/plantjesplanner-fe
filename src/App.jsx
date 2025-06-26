@@ -1,7 +1,16 @@
 import './App.css'
 import MyGardenForm from './components/MyGardenForm.jsx';
+import LoginPage from "./components/pages/LoginPage.jsx";
+import React, {useState} from "react";
 
 function App() {
+const [jwt, setJwt] = useState(localStorage.getItem("jwt"));
+
+//show loginpage if localStrorage does not contain jwt (token)
+if(!jwt){
+    return <LoginPage onLogin={setJwt}/>;
+}
+
 
     return (<>
             <header>
@@ -149,14 +158,14 @@ function App() {
                 </section>
                 <section>
                     <h2>PlantjesPlanner inlogpagina</h2>
-                    <p>hier komt de inlogpagina</p>
+                    <LoginPage/>
                 </section>
             </main>
 
             <footer>
                 <p>footer: PlantjesPlanner door Sophie</p>
             </footer>
-        </>)
+        </>);
 }
 
 export default App

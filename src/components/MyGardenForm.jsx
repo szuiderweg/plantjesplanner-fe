@@ -8,8 +8,9 @@ function MyGardenForm() {
         sunlight:"",
         moisture:"",
         wind:"",
-        soilType:"",
+        openGround:"",
         numberOfPlants:"",
+        soilName:"",
         gardenSize:""
     }); //
 
@@ -48,8 +49,8 @@ function MyGardenForm() {
                     onChange={handleChange}
                     placeholder="mijn prachtige tuin"
                 />
-
-                {/*sunlight in garden*/} </label>
+            </label>
+                {/*sunlight in garden*/}
             <label htmlFor="garden-sunlight-field">Hoeveel zonlicht schijnt hier?
                 <select
                     name="sunlight"
@@ -97,9 +98,9 @@ function MyGardenForm() {
                 <label>
                     <input
                         type="radio"
-                        name="soilType"
-                        value="openGround"
-                        checked={gardenValues.soilType === "openGround"}
+                        name="openGround"
+                        value="true"
+                        checked={gardenValues.openGround === "true"}
                         onChange={handleChange}
                     />
                     Volle grond
@@ -107,9 +108,9 @@ function MyGardenForm() {
                 <label>
                     <input
                         type="radio"
-                        name="soilType"
-                        value="pots"
-                        checked={gardenValues.soilType === "pots"}
+                        name="openGround"
+                        value="false"
+                        checked={gardenValues.openGround === "false"}
                         onChange={handleChange}
                     />
                     Potten
@@ -117,7 +118,7 @@ function MyGardenForm() {
 
             {/* conditional rendering of followup question after the soiltype question */}
             {/*for potted plants: how many plants? */}
-            {gardenValues.soilType === "pots" && (
+            {gardenValues.openGround === "false" && (
                 <div>
                     <label htmlFor="number-of-plants-field">Hoeveel planten wil je kiezen?
                     <input
@@ -128,8 +129,20 @@ function MyGardenForm() {
                     /> stuks </label>
                 </div>
             )}
+            {/*2 questions when open ground is selected: soiltype? and area to be planted? */}
+            {gardenValues.openGround === "true" && (
+                <label htmlFor="soiltype-field">Wat voor soort grond is het?
+                    <input
+                        type="text"
+                        id="soiltype-field"
+                        name="soilName"
+                        onChange={handleChange}
+                        placeholder="b.v. klei, zand, humus"
+                    />
+                </label>
+            )}
             {/*for open ground: how much area [m2] to be planted?  */}
-            {gardenValues.soilType === "openGround" && (
+            {gardenValues.openGround === "true" && (
                 <div>
                     <label htmlFor="gardensize-field">hoeveel ruimte ga je beplanten?:
                         <input
@@ -140,6 +153,9 @@ function MyGardenForm() {
                         /> m<sup>2</sup></label>
                 </div>
             )}
+
+
+
             {/*end of conditional questions*/}
             <button type="submit" >Opslaan</button>
         </form>
