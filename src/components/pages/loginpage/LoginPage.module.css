@@ -1,0 +1,89 @@
+#logo{ width: 25rem;}
+
+section{
+    margin: 20px 0 20px 0;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+
+.login-form{
+    position: relative; /*positioning parent of error container*/
+    height:120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+.login-form button{
+    align-self: center;
+}
+
+.login-form-title{
+    text-align: center;
+}
+
+/*componenten styling*/
+/*input velden*/
+.banaan{
+    color: var(--licorice);
+    background-color: var(--tea-green);
+    border: 2px solid var(--mint-cream);
+    box-shadow:inset -2px -2px 6px var(--olivine);
+
+    font-size: 1rem;
+    border-radius: 8px;
+    padding: 2px 4px;
+    margin-left: 8px;
+
+}
+.banaan[type="text"]:focus {
+    outline: none; /* randkleur bij focus */
+    border-color: var(--rose-ebony);
+}
+.banaan[type="password"]:focus {
+    outline: none;
+    border-color: var(--rose-ebony)/* randkleur bij focus */
+}
+
+/*button stylen*/
+.knopje{color: var(--mint-cream);
+    background-color: var(--hunter-green);
+    padding: 0.5em 1em;
+    border-radius: 1.2em;
+    border: none;
+    box-shadow: 0 5px 10px var(--shadow);
+    /*box-shadow: inset -2 2px 5px var(--olivine);*/
+    font-family: "Varela", sans-serif;
+    font-size: 1em;
+}
+
+.knopje:hover {
+    color: var(--hunter-green);
+    background-color: var(--mint-cream);
+}
+
+.knopje:active {
+    transform: translateY(3px);
+}
+/*error box styling*/
+.error{
+    position: absolute;/*position relative to section with form*/
+    top: 50%;
+    left:100%;
+    margin-left: 2em;
+    transform: translateY(-50%);
+
+    min-width: 15em;
+    max-width: 30em;
+
+    color: var(--persian-red);
+    border: solid 2px var(--persian-red);
+    background: rgba(255, 228, 225, 0.8);
+    border-radius: 8px;
+    padding: 1em;
+    display: flex;/*use flexbox to nicely align icon with text*/
+    align-items: center;
+    gap: 1em;
+}

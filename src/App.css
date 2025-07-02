@@ -12,6 +12,11 @@
 
 /*-------------------------------------------------------------------------------*/
 /*----1 reset and imports----*/
+@import url('https://fonts.googleapis.com/css2?family=Della+Respira&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
+
+
+
 /*CSS reset*/
 * {
     padding: 0;
@@ -19,15 +24,36 @@
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
 }
+
+
 /*-------------------------------------------------------------------------------*/
 /*----2. declaration of variables ----*/
 :root { /* colors */
     --mint-cream: #eef3eb;
     --tea-green: #C8D6BB;
     --olivine: #AAC294;
+    --hunter-green: #3E5A39;
+    --licorice: #1A1110;
+    --rose-ebony:#674846;
+    --persian-red:#CC3333;
+    --misty-rose:#FFE4E1;
+    --shadow:#B2BEB5;
+
 }
 /*-------------------------------------------------------------------------------*/
 /*----3. general typography ----*/
+html { font-family: "Varela", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--hunter-green);
+    font-size: 16px;}
+
+h1,h2,h3,h4,h5 {
+    font-family: "Della Respira", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 
 /*-------------------------------------------------------------------------------*/
 /*----4. global styles ----*/
@@ -65,12 +91,14 @@ main{
     gap:30px;
 }
 
-section{
-    width: 60vw;
-    flex: 0 0 auto;
-    margin: 20px 0 20px 0;
+/*section{*/
+/*    width: 60vw;*/
+/*    flex: 0 0 auto;*/
+/*    margin: 20px 0 20px 0;*/
+/*    padding: 20px;*/
+/*    border-radius: 20px;*/
 
-}
+/*}*/
 
 
 /*-------------------------------------------------------------------------------*/
