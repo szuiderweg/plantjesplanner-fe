@@ -3,53 +3,58 @@ import axios from "axios";
 import styles from './LoginPage.module.css'
 import logo from '../../../assets/logo.svg';
 import LoginForm from "../../forms/loginForm/LoginForm.jsx";
+import newAccountForm from "../../forms/newAccountForm/NewAccountForm.jsx"
+import NewAccountForm from "../../forms/newAccountForm/NewAccountForm.jsx";
+import Button from "../../ui/button/Button.jsx";
 
 function LoginPage({onLogin}) {
-    //use state for the form
-    const [credentials, setCredentials] = useState({
-        username: "",
-        password: ""
-    });
-    //use state for error handling
-    const [error, setError] = useState("");
+    //use state to determine which form is active
+    const[activeForm, toggleActiveForm] = useState("")
 
-
-    function handleChange(e) {
-        const {name, value} = e.target;
-        setCredentials((prev) => ({
-            ...prev,
-            [name]: value
-        }));
+    function handleLoginSuccess(jwt){
+        onLogin(jwt);
     }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError("");
-
-        try {
-            const response = await axios.post("http://localhost:8080/login", credentials);
-            const jwt = response.data;
-            onLogin(jwt);
-        } catch (err) {
-            setError("Inloggen mislukt. probeer het nog eens")
-        }
-    };
 
     return (
         <main>
-            <span><img src={logo} alt="plantjesplanner logo" id={styles['logo']}/></span>
+            <span><img src={logo} alt="plantjesplanner logo" className={styles.logo}/>
+            </span>
+
+            <section>
+                <ul className={styles.leafMarker}>
+                    <li><p>Is jouw tuin een kale bende of heb je een leeg balkon en wil je de boel eens lekker vergroenen? </p></li>
+                    <li><p>Maar heb je geen idee wat je er neer wilt zetten? </p></li>
+                    <li><p>Zie je in de winkel door de bomen het bos niet meer? </p></li>
+                </ul>
+
+                <p className={styles.pExtraMargin}>Dan is er de PlantjesPlanner die je helpt een plan voor je plantjes te maken!</p>
+                <p className={styles.pExtraMargin}>Log in of maak een nieuw account om aan de slag te gaan.</p>
+
+
+                <div className={styles.loginPageButtonRow}>
+                    <Button onClick={() => toggleActiveForm("login")}
+                        >
+                        Inloggen
+                    </Button>
+                    <Button onClick={() => toggleActiveForm("register")}
+                    >
+                        Nieuw account
+                    </Button>
+
+                </div>
+
+                {/*<Button onClick={() => toggleActiveForm(activeForm ==="login" ? "register" : "login")}>*/}
+                {/*    {activeForm === "login"? "Nieuw account" :"Inloggen"}*/}
+                {/*</Button>*/}
+            </section>
 
             <section id="login-form-section">
-                <h2 className={styles['login-form-title']}>Inloggen</h2>
-               <LoginForm
-                   credentials={credentials}
-                   onChange={handleChange}
-                   onSubmit={handleSubmit}
-                   error={error}
-                   styles={styles}
-                   />
-
+            {activeForm ==="login" && <LoginForm onLogin={handleLoginSuccess} />}
+                {activeForm ==="register" && <NewAccountForm onRegistration={handleLoginSuccess}/>}
             </section>
+
+
+        {/*    hier komt het nieuwe account form*/}
         </main>
     );
 }

@@ -1,9 +1,12 @@
 import React from "react";
 import { WarningDiamondIcon } from '@phosphor-icons/react';
+import styles from './ErrorBox.module.css';
 
-function ErrorBox({children, className}) {
+function ErrorBox({children}){
+
     return (
-        <aside className={className} role="alert">
+
+        <aside className={styles.errorBox} role="alert">
             <WarningDiamondIcon size={50} color="#cc3333" weight="bold" />
             {children}
         </aside>

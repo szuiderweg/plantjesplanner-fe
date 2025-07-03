@@ -1,0 +1,21 @@
+.errorBox{
+    position: absolute;/*position relative to the form*/
+    top: 50%;
+    left:100%;
+    margin-left: 2em;
+    transform: translateY(-50%);
+
+    min-width: 15em;
+    max-width: 30em;
+
+    color: var(--persian-red);
+    border: solid 2px var(--persian-red);
+    background: rgba(255, 228, 225, 0.8);
+    border-radius: 8px;
+    padding: 1em;
+    display: flex;/*use flexbox to nicely align icon with text*/
+    align-items: center;
+    gap: 1em;
+}
+
+/*.errorBox { background: red !important; color: white !important; }*/

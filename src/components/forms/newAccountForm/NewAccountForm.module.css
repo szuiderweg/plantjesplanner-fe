@@ -1,4 +1,4 @@
-.loginForm{
+.newAccountForm{
     position: relative; /*positioning parent of error container*/
     /*height:120px;*/
     display: flex;
@@ -8,10 +8,10 @@
     align-items: flex-end;
 }
 
-.loginForm button{
+.newAccountForm button{
     align-self: center;
 }
 
-.loginPageFormTitle{
+.newAccountFormTitle{
     text-align: center;
 }

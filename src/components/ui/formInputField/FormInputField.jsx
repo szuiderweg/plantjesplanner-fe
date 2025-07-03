@@ -1,5 +1,5 @@
 import React from "react";
-
+import styles from './FormInputField.module.css'
 /**
  * Generic imput component for forms including label
 * onChange is a change handling function
@@ -24,7 +24,7 @@ function FormInputField({
                 name={name}
                 value={value}
                 onChange={onChange}
-                className={className}
+                className={styles.inputField}
                 {...rest}
             />
         </label>

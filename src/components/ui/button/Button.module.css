@@ -1,0 +1,18 @@
+.greenButton{color: var(--mint-cream);
+    background-color: var(--hunter-green);
+    padding: 0.3em 0.8em;
+    border-radius: 1.2em;
+    border: none;
+    box-shadow: 0 5px 10px var(--shadow);
+    font-family: "Varela", sans-serif;
+    font-size: 1em;
+}
+
+.greenButton:hover {
+    color: var(--hunter-green);
+    background-color: var(--mint-cream);
+}
+
+.greenButton:active { /*move button a bit down when it is clicked*/
+    transform: translateY(3px);
+}
