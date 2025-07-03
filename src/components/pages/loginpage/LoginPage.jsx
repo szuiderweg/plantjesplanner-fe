@@ -42,19 +42,14 @@ function LoginPage({onLogin}) {
                     </Button>
 
                 </div>
-
-                {/*<Button onClick={() => toggleActiveForm(activeForm ==="login" ? "register" : "login")}>*/}
-                {/*    {activeForm === "login"? "Nieuw account" :"Inloggen"}*/}
-                {/*</Button>*/}
             </section>
 
+            {(activeForm === "login" || activeForm === "register") && (
             <section id="login-form-section">
             {activeForm ==="login" && <LoginForm onLogin={handleLoginSuccess} />}
                 {activeForm ==="register" && <NewAccountForm onRegistration={handleLoginSuccess}/>}
             </section>
-
-
-        {/*    hier komt het nieuwe account form*/}
+                )}
         </main>
     );
 }
