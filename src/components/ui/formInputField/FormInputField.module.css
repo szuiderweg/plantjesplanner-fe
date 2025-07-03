@@ -1,0 +1,21 @@
+/*styling for form input fields*/
+.inputField{
+    color: var(--licorice);
+    background-color: var(--tea-green);
+    border: 2px solid var(--mint-cream);
+    box-shadow:inset -2px -2px 6px var(--olivine);
+
+    font-size: 1rem;
+    border-radius: 8px;
+    padding: 2px 4px;
+    margin-left: 8px;
+
+}
+.inputField[type="text"]:focus {
+    outline: none; /* border color when focus is on input field */
+    border-color: var(--rose-ebony);
+}
+.inputField[type="password"]:focus {
+    outline: none;
+    border-color: var(--rose-ebony); /* border color when focus is on input field */
+}

@@ -1,6 +1,6 @@
 import './App.css'
 import MyGardenForm from './components/MyGardenForm.jsx';
-import LoginPage from "./components/pages/LoginPage.jsx";
+import LoginPage from "./components/pages/loginpage/LoginPage.jsx";
 import React, {useState} from "react";
 
 function App() {

@@ -1,0 +1,17 @@
+.newAccountForm{
+    position: relative; /*positioning parent of error container*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 0.8em;
+    align-items: flex-end;
+}
+
+.newAccountForm button{
+    align-self: center;
+}
+
+.newAccountFormTitle{
+    text-align: center;
+    margin-bottom: 0.5em;
+}

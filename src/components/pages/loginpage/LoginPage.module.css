@@ -1,0 +1,41 @@
+.logo{
+    width: 40em;
+    margin-top: 3em;
+}
+
+section{
+    margin: 20px 0 20px 0;
+    padding: 2em;
+    border-radius: 20px;
+}
+
+section p{
+    line-height: 1.8em;
+}
+
+.pExtraMargin{margin: 1em 0;
+}
+
+.loginPageButtonRow{
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+.leafMarker li {
+    position: relative;         /* For absolute positioning of ::before pseudo element*/
+    padding-left: 2em;         /* Space for custom leaf marker */
+}
+
+.leafMarker li::before {
+    content: "";
+    position: absolute; /*vertically center marker relative to li element*/
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    /*set markersize*/
+    width: 20px;
+    height: 20px;
+    background: url('../../../assets/leaf.svg') no-repeat center/contain;/*set leaf image as background of ::before */
+}
+
