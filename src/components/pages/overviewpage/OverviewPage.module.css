@@ -1,0 +1,12 @@
+nav > ul{
+    display: flex;
+    justify-content: space-around;
+}
+
+
+
+nav{
+    padding: 10px;
+
+    background-color: var(--tea-green);
+}

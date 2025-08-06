@@ -4,6 +4,7 @@ import ErrorBox from "../../ui/errorBox/ErrorBox.jsx";
 import FormInputField from "../../ui/formInputField/FormInputField.jsx";
 import styles from "./LoginForm.module.css"
 import axios from "axios";
+import { useNavigate} from "react-router-dom";
 
 function LoginForm({onLogin}) {
 
@@ -14,6 +15,8 @@ function LoginForm({onLogin}) {
     //use state for error handling
     const [error, setError] = useState("");
 
+    //use React Router
+    const navigate = useNavigate();
 
     function handleChange(e) {
         const {name, value} = e.target;
@@ -31,6 +34,7 @@ function LoginForm({onLogin}) {
             const response = await axios.post("http://localhost:8080/login", credentials);
             const jwt = response.data;
             onLogin(jwt);
+            navigate("/overview");
         } catch (err) {
             setError("Inloggen mislukt. probeer het nog eens")
         }

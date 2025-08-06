@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import axios from "axios";
-import styles from './LoginPage.module.css'
+import styles from './LoginPage.module.css';
 import logo from '../../../assets/logo.svg';
 import LoginForm from "../../forms/loginForm/LoginForm.jsx";
 import newAccountForm from "../../forms/newAccountForm/NewAccountForm.jsx"
