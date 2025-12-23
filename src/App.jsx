@@ -3,6 +3,7 @@ import MyGardenForm from './components/MyGardenForm.jsx';
 import LoginPage from "./components/pages/loginpage/LoginPage.jsx";
 import React, {useState} from "react";
 import OverviewPage from "./components/pages/overviewpage/OverviewPage.jsx";
+import PlantcatalogPage from "./components/pages/PlantcatalogPage/PlantcatalogPage.jsx";
 import {Routes, Route, Navigate} from "react-router-dom";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Routes>
             <Route path="/" element={<LoginPage onLogin={setJwt}/>} />
             <Route path="/overview"  element={jwt? <OverviewPage/> :<Navigate to="/" />} />
+            <Route path = "/catalog" element={jwt? <PlantcatalogPage/> :<Navigate to="/" /> } />
         </Routes>
     );
 }

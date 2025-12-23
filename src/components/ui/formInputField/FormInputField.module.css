@@ -1,6 +1,6 @@
 /*styling for form input fields*/
 .inputField{
-    color: var(--licorice);
+    color: var(--deep-mocha);
     background-color: var(--tea-green);
     border: 2px solid var(--mint-cream);
     box-shadow:inset -2px -2px 6px var(--olivine);
@@ -13,9 +13,9 @@
 }
 .inputField[type="text"]:focus {
     outline: none; /* border color when focus is on input field */
-    border-color: var(--rose-ebony);
+    border-color: var(--deep-mocha);
 }
 .inputField[type="password"]:focus {
     outline: none;
-    border-color: var(--rose-ebony); /* border color when focus is on input field */
+    border-color: var(--deep-mocha); /* border color when focus is on input field */
 }
