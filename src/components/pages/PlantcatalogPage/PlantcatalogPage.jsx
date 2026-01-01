@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import styles from "./PlantcatalogPage.module.css";
 import NavigationBar from "../../ui/navigationbar/NavigationBar.jsx";
 import Button from "../../ui/button/Button.jsx";
-import FormButton from "../../ui/button/Button.jsx";
 import FormInputField from "../../ui/formInputField/FormInputField.jsx";
 import logo from "../../../assets/logo.svg";
 import madelief from "../../../assets/madelief.webp";
@@ -12,14 +11,50 @@ import axios from "axios";
 
 
 function PlantcatalogPage(){
+    const [plants, setPlants] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+    const [user, setUser] = useState(null);
+
     useEffect(() => {
-        const jwt = localStorage.getItem("jwt");
+        async function fetchData() {
+            try {
+                const jwt = localStorage.getItem("jwt");
 
-        axios.get("http://localhost:8080/plants", {headers: {Authorization: `Bearer ${jwt}`,}})
-            .then(response =>{console.log("Plants from Backend:", response.data );})
-            .catch(error => {console.error("error fetching plants:", error);})
+                const plantsResponse = await axios.get("http://localhost:8080/plants", {
+                    headers: {
+                        Authorization:`Bearer ${jwt}`,
+                    },
+                });
 
-    }, []);
+                const userResponse = await axios.get("http://localhost:8080/users/me",
+                    {
+                        headers: {
+                            Authorization:`Bearer ${jwt}`,
+                        },
+                    }
+                );
+
+                setPlants(plantsResponse.data);
+                setUser(userResponse.data);
+
+            }catch (err) {
+                setError("Planten konden niet worden opgehaald");
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchData();
+        }, []);
+
+    if(loading) {
+        return <p> Planten laden...</p>;
+    }
+
+    if (error) {
+        return <p>{error}</p>
+    }
+
 
     return(
         <>
@@ -31,6 +66,7 @@ function PlantcatalogPage(){
 
                 <section>
                     <h1>Plantjes catalogus </h1>
+                    <p>Ingelogd als: {user?.username} ({user?.role}) </p>
                   {/*<div className={styles.searchBar}>*/}
                   {/*    <Button onClick={() => console.log("toon alle planten")}>*/}
                   {/*        Toon alle Planten*/}
@@ -53,27 +89,37 @@ function PlantcatalogPage(){
 
                   {/*  </div>*/}
                   {/*  <h2>Zoekresultaten</h2>*/}
-                    <ul>
-                        <li>
-                            <details>
-                                <summary>
-                                    Voorbeeld Plant
-                                </summary>
-                                <span><img src={madelief} alt="voorbeeldplant" className={styles.madelief}/>
-                                </span>
-                                <p>Beschrijving: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis cumque deserunt dolores eaque fuga inventore ipsam ipsum iste maiores minus nam neque, pariatur, quod repellendus similique suscipit totam veritatis voluptatum.</p>
-                                <span><p><Sun size={24} color="#FFA500" weight="fill"/></p><p>moisture</p><p>wind</p><p>potted</p></span>
-                                <p>grondsoort: grond</p>
-                                <p>hoogte</p><p>oppervlak cm2</p>
-                                <p>tabel met bloeikalender</p>
-                            </details>
+                  {/*  <ul>*/}
+                  {/*      <li>*/}
+                  {/*          <details>*/}
+                  {/*              <summary>*/}
+                  {/*                  Voorbeeld Plant*/}
+                  {/*              </summary>*/}
+                  {/*              <span><img src={madelief} alt="voorbeeldplant" className={styles.madelief}/>*/}
+                  {/*              </span>*/}
+                  {/*              <p>Beschrijving: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis cumque deserunt dolores eaque fuga inventore ipsam ipsum iste maiores minus nam neque, pariatur, quod repellendus similique suscipit totam veritatis voluptatum.</p>*/}
+                  {/*              <span><p><Sun size={24} color="#FFA500" weight="fill"/></p><p>moisture</p><p>wind</p><p>potted</p></span>*/}
+                  {/*              <p>grondsoort: grond</p>*/}
+                  {/*              <p>hoogte</p><p>oppervlak cm2</p>*/}
+                  {/*              <p>tabel met bloeikalender</p>*/}
+                  {/*          </details>*/}
 
+                  {/*      </li>*/}
+                  {/*      <li><p>plant</p></li>*/}
+                  {/*      <li><p>plant</p></li>*/}
+                  {/*      <li><p>plant</p></li>*/}
+                  {/*  </ul>*/}
+                <ul>
+                    {plants.map((plant) => (
+                        <li key={plant.id}>
+                            <h4>{plant.dutchName} - {plant.latinName} </h4>
+                            {user?.role === "ADMIN" && (
+                                <Button type="button">
+                                    Bewerken
+                                </Button>)}
                         </li>
-                        <li><p>plant</p></li>
-                        <li><p>plant</p></li>
-                        <li><p>plant</p></li>
-                    </ul>
-
+                    ))}
+                </ul>
                 </section>
 
             </main>
