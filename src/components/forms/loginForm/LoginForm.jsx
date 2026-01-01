@@ -33,6 +33,8 @@ function LoginForm({onLogin}) {
         try {
             const response = await axios.post("http://localhost:8080/login", credentials);
             const jwt = response.data;
+
+            localStorage.setItem("jwt",jwt);
             onLogin(jwt);
             navigate("/overview");
         } catch (err) {

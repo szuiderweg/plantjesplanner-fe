@@ -130,10 +130,6 @@ function OverviewPage(){
                 {/*    <LoginPage/>*/}
                 {/*</section>*/}
             </main>
-
-            <footer>
-                <p>footer: PlantjesPlanner door Sophie</p>
-            </footer>
         </>
     );
 }

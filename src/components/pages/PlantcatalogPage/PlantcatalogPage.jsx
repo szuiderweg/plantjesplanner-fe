@@ -1,12 +1,26 @@
-import React,{useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./PlantcatalogPage.module.css";
 import NavigationBar from "../../ui/navigationbar/NavigationBar.jsx";
 import Button from "../../ui/button/Button.jsx";
 import FormButton from "../../ui/button/Button.jsx";
 import FormInputField from "../../ui/formInputField/FormInputField.jsx";
+import logo from "../../../assets/logo.svg";
+import madelief from "../../../assets/madelief.webp";
+import {CloudSun, Moon, Sun} from "phosphor-react";
+import axios from "axios";
+
 
 
 function PlantcatalogPage(){
+    useEffect(() => {
+        const jwt = localStorage.getItem("jwt");
+
+        axios.get("http://localhost:8080/plants", {headers: {Authorization: `Bearer ${jwt}`,}})
+            .then(response =>{console.log("Plants from Backend:", response.data );})
+            .catch(error => {console.error("error fetching plants:", error);})
+
+    }, []);
+
     return(
         <>
             <header>
@@ -16,33 +30,42 @@ function PlantcatalogPage(){
             <main>
 
                 <section>
-                    <h1>Plant catalogus </h1>
-                    <Button onClick={() => console.log("toon alle planten")}>
-                        Toon alle Planten
-                    </Button>
-                    <form onSubmit="">
-                        <FormInputField
-                            label="Zoek op plantnaam: "
-                            id="searchplant-field"
-                            name="plantname"
-                            value=""
-                            onChange=""
-                            type="text"
-                            required
-                            className=""
-                        />
-                        <FormButton type="submit">
-                            Zoeken
-                        </FormButton>
-                    </form>
-                    <hr/>
+                    <h1>Plantjes catalogus </h1>
+                  {/*<div className={styles.searchBar}>*/}
+                  {/*    <Button onClick={() => console.log("toon alle planten")}>*/}
+                  {/*        Toon alle Planten*/}
+                  {/*    </Button>*/}
+                  {/*  <form onSubmit="">*/}
+                  {/*      <FormInputField*/}
+                  {/*          label="Zoek op plantnaam: "*/}
+                  {/*          id="searchplant-field"*/}
+                  {/*          name="plantname"*/}
+                  {/*          value=""*/}
+                  {/*          onChange=""*/}
+                  {/*          type="text"*/}
+                  {/*          required*/}
+                  {/*          className=""*/}
+                  {/*      />*/}
+                  {/*      <FormButton type="submit">*/}
+                  {/*          Zoeken*/}
+                  {/*      </FormButton>*/}
+                  {/*  </form>*/}
+
+                  {/*  </div>*/}
+                  {/*  <h2>Zoekresultaten</h2>*/}
                     <ul>
                         <li>
                             <details>
                                 <summary>
-                                    <h3>Voorbeeld Plant </h3><h4>Plantus Examplus</h4>
+                                    Voorbeeld Plant
                                 </summary>
-
+                                <span><img src={madelief} alt="voorbeeldplant" className={styles.madelief}/>
+                                </span>
+                                <p>Beschrijving: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis cumque deserunt dolores eaque fuga inventore ipsam ipsum iste maiores minus nam neque, pariatur, quod repellendus similique suscipit totam veritatis voluptatum.</p>
+                                <span><p><Sun size={24} color="#FFA500" weight="fill"/></p><p>moisture</p><p>wind</p><p>potted</p></span>
+                                <p>grondsoort: grond</p>
+                                <p>hoogte</p><p>oppervlak cm2</p>
+                                <p>tabel met bloeikalender</p>
                             </details>
 
                         </li>
