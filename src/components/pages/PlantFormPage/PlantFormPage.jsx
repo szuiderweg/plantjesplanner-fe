@@ -96,6 +96,8 @@ function PlantFormPage({mode}){
 
     });
 
+    const [image, setImage] = useState(null);
+
 
 
 
@@ -142,6 +144,7 @@ function PlantFormPage({mode}){
 
 
 
+
     return(
         <>
             <header>
@@ -153,7 +156,7 @@ function PlantFormPage({mode}){
                     <h1>
                         Plant Formulier
                     </h1>
-                    {/*todo: form velden compleet maken*/}
+
                     <form onSubmit={handleSubmit}>
                         <FormInputField
                             label="Nederlandse naam"
@@ -211,9 +214,11 @@ function PlantFormPage({mode}){
                             label="kleurcategorie bloemen"
                             id="bloomColorGroup"
                             name="bloomColorGroup"
-                            value={plant.bloomColorGroup}
+                            value={plant.bloomColorGroup ?? ""}
+                            required
                             onChange={handleChange}
-                            options={[ "ROOD", "ORANJE", "GEEL", "GROEN", "BLAUW", "PAARS", "ROZE", "WIT", "BRUIN", "MIX", "OVERIG", "GEEN"
+                            options={[
+                                "ROOD", "ORANJE", "GEEL", "GROEN", "BLAUW", "PAARS", "ROZE", "WIT", "BRUIN", "MIX", "OVERIG", "GEEN"
                             ]}
                         />
 
@@ -221,7 +226,8 @@ function PlantFormPage({mode}){
                             label="Zonlicht"
                             id="sunlight"
                             name="sunlight"
-                            value={plant.localeDto.sunlight}
+                            value={plant.localeDto.sunlight ?? ""}
+                            required
                             onChange={handleLocaleChange}
                             options={["ZONNIG", "HALFSCHADUW", "SCHADUW"]}
                         />
@@ -230,7 +236,8 @@ function PlantFormPage({mode}){
                             label="Vochtigheid"
                             id="moisture"
                             name="moisture"
-                            value={plant.localeDto.moisture}
+                            value={plant.localeDto.moisture ?? ""}
+                            required
                             onChange={handleLocaleChange}
                             options={[ "DROOG", "MATIG_VOCHTIG", "VOCHTIG", "NAT"
                             ]}
@@ -240,7 +247,8 @@ function PlantFormPage({mode}){
                             label="Windbestendigheid"
                             id="windTolerance"
                             name="windTolerance"
-                            value={plant.localeDto.windTolerance}
+                            value={plant.localeDto.windTolerance ?? ""}
+                            required
                             onChange={handleLocaleChange}
                             options={[ "STERKE_WIND", "GEMIDDELD", "BESCHUT"
                             ]}
