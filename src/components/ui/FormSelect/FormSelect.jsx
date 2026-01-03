@@ -15,7 +15,7 @@ function FormSelect({ label, id, name, value, onChange, options}){
             <option value=""> -- selecteer -- </option>
                 {options.map(option =>(
                     <option key={option} value={option}>
-                        {option}
+                        {option.toLowerCase()}
                     </option>
                 ))}
             </select>

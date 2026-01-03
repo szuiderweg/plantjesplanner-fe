@@ -5,6 +5,8 @@ import {useParams, useNavigate} from "react-router-dom";
 import axios from "axios";
 import FormInputField from "../../ui/formInputField/FormInputField.jsx";
 import Button from "../../ui/button/Button.jsx";
+import FormSelect from "../../ui/FormSelect/FormSelect.jsx";
+import FormCheckbox from "../../ui/formCheckbox/FormCheckbox.jsx";
 
 
 function PlantFormPage({mode}){
@@ -16,15 +18,37 @@ function PlantFormPage({mode}){
     const handleSubmit = async (e) =>{
         e.preventDefault();
 
+        // this bit replaces the decimal symbol from number type inputs comma ',' with point '.'
+        const payload = {
+            ...plant,
+            height: plant.height
+                ? plant.height.replace(",",".")
+                : 0,
+            footprint: plant.footprint
+                ? plant.footprint.replace(",",".")
+                : 0,
+        };
+
+        //create form data for the POST request
+        const formData = new FormData();
+        formData.append(
+            "plant", new Blob([JSON.stringify(payload)], {type:"application/json" })
+        );
+
+        // later:
+        // if (imageFile) {
+        //   formData.append("image", imageFile);
+        // }
+
+
         try{
             const jwt = localStorage.getItem("jwt");
 
             await axios.post(
-                "http://localhost:8080/plants", plant,
+                "http://localhost:8080/plants", formData,
                 {
                     headers: {
                         Authorization: `Bearer ${jwt}`,
-                        "Content-Type":"application/json",
                     },
                 }
             );
@@ -44,13 +68,13 @@ function PlantFormPage({mode}){
         height: "",
         footprint: "",
         bloomColorHex: "",
-        bloomColorGroup: "",
+        bloomColorGroup: null,
         published: true,
 
         localeDto: {
-            sunlight: "",
-            moisture: "",
-            windTolerance: "",
+            sunlight: null,
+            moisture: null,
+            windTolerance: null,
             soilType: "",
             openGroundOnly: false,
         },
@@ -79,7 +103,12 @@ function PlantFormPage({mode}){
         const{ name, value, type, checked } = e.target;
         setPlant(prev => ({
             ...prev,
-            [name]: type === "checkbox" ? checked : value,
+            [name]:
+                type === "checkbox"
+                    ? checked
+                    : value === ""
+                        ? null
+                        : value,
         }));
     }
 
@@ -89,7 +118,12 @@ function PlantFormPage({mode}){
             ...prev,
             localeDto: {
                 ...prev.localeDto,
-                [name]: type === "checkbox" ? checked : value,
+                [name]:
+                    type === "checkbox"
+                        ? checked :
+                        value === ""
+                        ? null
+                        : value,
             },
         }));
     }
@@ -173,7 +207,155 @@ function PlantFormPage({mode}){
                             placeholder="#000000"
                             onChange={handleChange}
                         />
+                        <FormSelect
+                            label="kleurcategorie bloemen"
+                            id="bloomColorGroup"
+                            name="bloomColorGroup"
+                            value={plant.bloomColorGroup}
+                            onChange={handleChange}
+                            options={[ "ROOD", "ORANJE", "GEEL", "GROEN", "BLAUW", "PAARS", "ROZE", "WIT", "BRUIN", "MIX", "OVERIG", "GEEN"
+                            ]}
+                        />
 
+                        <FormSelect
+                            label="Zonlicht"
+                            id="sunlight"
+                            name="sunlight"
+                            value={plant.localeDto.sunlight}
+                            onChange={handleLocaleChange}
+                            options={["ZONNIG", "HALFSCHADUW", "SCHADUW"]}
+                        />
+
+                        <FormSelect
+                            label="Vochtigheid"
+                            id="moisture"
+                            name="moisture"
+                            value={plant.localeDto.moisture}
+                            onChange={handleLocaleChange}
+                            options={[ "DROOG", "MATIG_VOCHTIG", "VOCHTIG", "NAT"
+                            ]}
+                        />
+
+                        <FormSelect
+                            label="Windbestendigheid"
+                            id="windTolerance"
+                            name="windTolerance"
+                            value={plant.localeDto.windTolerance}
+                            onChange={handleLocaleChange}
+                            options={[ "STERKE_WIND", "GEMIDDELD", "BESCHUT"
+                            ]}
+                        />
+
+                        <FormInputField
+                            label="Grondsoort"
+                            id="soilType"
+                            name="soilType"
+                            value={plant.localeDto.soilType}
+                            onChange={handleLocaleChange}
+                        />
+                        <FormCheckbox
+                            label="Alleen geschikt voor volle grond"
+                            id="openGroundOnly"
+                            name="openGroundOnly"
+                            checked={plant.localeDto.openGroundOnly}
+                            onChange={handleLocaleChange}
+                        />
+
+                        <FormCheckbox
+                            label="januari"
+                            id="january"
+                            name="january"
+                            checked={plant.bloomingCalendarDto.january}
+                            onChange={handleBloomingChange}
+                        />
+
+                        <FormCheckbox
+                            label="februari"
+                            id="february"
+                            name="february"
+                            checked={plant.bloomingCalendarDto.february}
+                            onChange={handleBloomingChange}
+                        />
+
+                        <FormCheckbox
+                            label="maart"
+                            id="march"
+                            name="march"
+                            checked={plant.bloomingCalendarDto.march}
+                            onChange={handleBloomingChange}
+                        />
+
+                        <FormCheckbox
+                            label="april"
+                            id="april"
+                            name="april"
+                            checked={plant.bloomingCalendarDto.april}
+                            onChange={handleBloomingChange}
+                        />
+
+                        <FormCheckbox
+                            label="mei"
+                            id="may"
+                            name="may"
+                            checked={plant.bloomingCalendarDto.may}
+                            onChange={handleBloomingChange}
+                        />
+
+                        <FormCheckbox
+                            label="juni"
+                            id="june"
+                            name="june"
+                            checked={plant.bloomingCalendarDto.june}
+                            onChange={handleBloomingChange}
+                        />
+
+                        <FormCheckbox
+                            label="juli"
+                            id="july"
+                            name="july"
+                            checked={plant.bloomingCalendarDto.july}
+                            onChange={handleBloomingChange}
+                        />
+
+                        <FormCheckbox
+                            label="augustus"
+                            id="august"
+                            name="august"
+                            checked={plant.bloomingCalendarDto.august}
+                            onChange={handleBloomingChange}
+                        />
+
+                        <FormCheckbox
+                            label="september"
+                            id="september"
+                            name="september"
+                            checked={plant.bloomingCalendarDto.september}
+                            onChange={handleBloomingChange}
+                        />
+
+                        <FormCheckbox
+                            label="oktober"
+                            id="october"
+                            name="october"
+                            checked={plant.bloomingCalendarDto.october}
+                            onChange={handleBloomingChange}
+                        />
+
+                        <FormCheckbox
+                            label="november"
+                            id="november"
+                            name="november"
+                            checked={plant.bloomingCalendarDto.november}
+                            onChange={handleBloomingChange}
+                        />
+
+                        <FormCheckbox
+                            label="december"
+                            id="december"
+                            name="december"
+                            checked={plant.bloomingCalendarDto.december}
+                            onChange={handleBloomingChange}
+                        />
 
 
                         <Button type="submit">
