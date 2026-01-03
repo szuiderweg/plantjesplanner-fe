@@ -7,6 +7,7 @@ import logo from "../../../assets/logo.svg";
 import madelief from "../../../assets/madelief.webp";
 import {CloudSun, Moon, Sun} from "phosphor-react";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 
 
@@ -67,6 +68,16 @@ function PlantcatalogPage(){
                 <section>
                     <h1>Plantjes catalogus </h1>
                     <p>Ingelogd als: {user?.username} ({user?.role}) </p>
+
+                    {user?.role === "ADMIN" && (
+                        <Link to="/plants/new">
+                            <Button type="button">
+                                Nieuwe plant
+                            </Button>
+                            </Link>
+                   )}
+
+
                   {/*<div className={styles.searchBar}>*/}
                   {/*    <Button onClick={() => console.log("toon alle planten")}>*/}
                   {/*        Toon alle Planten*/}
@@ -114,9 +125,12 @@ function PlantcatalogPage(){
                         <li key={plant.id}>
                             <h4>{plant.dutchName} - {plant.latinName} </h4>
                             {user?.role === "ADMIN" && (
-                                <Button type="button">
-                                    Bewerken
-                                </Button>)}
+                                <Link to={`/plants/${plant.id}/edit`}>
+                                    <Button type="button">
+                                        Bewerken
+                                    </Button>
+                                </Link>
+                            )}
                         </li>
                     ))}
                 </ul>

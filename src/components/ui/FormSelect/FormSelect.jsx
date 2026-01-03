@@ -1,0 +1,27 @@
+import React from "react";
+import styles from "./FormSelect.module.css";
+
+function FormSelect({ label, id, name, value, onChange, options}){
+    return(
+        <label htmlFor={id} >
+            {label}
+            <select
+                id = {id}
+                name = {name}
+                value = {value}
+                onChange = {onChange}
+                className = {styles.select}
+            >
+            <option value=""> -- selecteer -- </option>
+                {options.map(option =>(
+                    <option key={option} value={option}>
+                        {option}
+                    </option>
+                ))}
+            </select>
+
+        </label>
+    );
+}
+
+export default FormSelect;
