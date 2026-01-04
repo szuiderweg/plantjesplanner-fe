@@ -35,10 +35,10 @@ function PlantFormPage({mode}){
             "plant", new Blob([JSON.stringify(payload)], {type:"application/json" })
         );
 
-        // later:
-        // if (imageFile) {
-        //   formData.append("image", imageFile);
-        // }
+
+        if (image) {
+          formData.append("image", image);
+        }
 
 
         try{
@@ -142,6 +142,10 @@ function PlantFormPage({mode}){
         }));
     }
 
+    function handleImageChange(e){
+        const file = e.target.files[0];
+        setImage(file);
+    }
 
 
 
@@ -365,6 +369,14 @@ function PlantFormPage({mode}){
                             onChange={handleBloomingChange}
                         />
 
+                        <label>
+                            Plant afbeelding (optioneel)
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                            />
+                        </label>
 
                         <Button type="submit">
                             Opslaan
