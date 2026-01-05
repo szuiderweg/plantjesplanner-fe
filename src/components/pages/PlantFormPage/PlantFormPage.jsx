@@ -15,46 +15,99 @@ function PlantFormPage({mode}){
 
     const [error, setError] = useState("");
 
-    const handleSubmit = async (e) =>{
-        e.preventDefault();
+    // for editing mode only: useEffect to retrieve existing plant data from backend
+    useEffect(()=> {
+        if (mode !== "edit") return;
 
-        // this bit replaces the decimal symbol from number type inputs comma ',' with point '.'
+        async function fetchPlant(){
+            try{
+                const jwt = localStorage.getItem("jwt");
+
+                const response = await axios.get(
+                    `http://localhost:8080/plants/${id}`,
+                    {
+                        headers:{
+                            Authorization: `Bearer ${jwt}`,
+                        },
+                    }
+                );
+
+                setPlant(response.data);
+            } catch(error){
+                console.error("plant ophalen mislukt, error");
+                setError("Plant kon niet worden geladen");
+            }
+        }
+        fetchPlant();
+    }, [mode, id]);
+
+    //helper to fill formData for POST and PUT requests
+    function buildFormData(){
+        // this bit
         const payload = {
             ...plant,
-            height: plant.height
-                ? plant.height.replace(",",".")
-                : 0,
-            footprint: plant.footprint
-                ? plant.footprint.replace(",",".")
-                : 0,
+            height: normalizeDecimal(plant.height),
+            footprint: normalizeDecimal(plant.footprint),
         };
 
-        //create form data for the POST request
+        //create form data for plant
         const formData = new FormData();
         formData.append(
             "plant", new Blob([JSON.stringify(payload)], {type:"application/json" })
         );
 
-
+        //add image file for upload to formData if present
         if (image) {
-          formData.append("image", image);
+            formData.append("image", image);
         }
+        return formData;
+    }
+
+    //helper to replace the decimal symbol comma ',' with point '.' so the backend recognizes it as a decimal number.
+    function normalizeDecimal(value){
+        //return 0 if value is not a number
+        if (value === null || value === undefined || value === "") return 0;
+
+        //return unchanged value if value is a number (with a .)
+        if (typeof value === "number") return value;
+        //otherwise replace ',' with '.'
+        return value.replace(",",".");
+    }
 
 
+
+    const handleSubmit = async (e) =>{
+        e.preventDefault();
         try{
             const jwt = localStorage.getItem("jwt");
+            const formData = buildFormData();
 
-            await axios.post(
-                "http://localhost:8080/plants", formData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${jwt}`,
-                    },
-                }
-            );
+            //if the page is in edit-mode, do PUT request, else do POST request
+            if( mode === "edit"){
+                await axios.put(
+                    `http://localhost:8080/plants/${id}`,
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${jwt}`,
+                        },
+                    }
+                );
+
+            }else{
+                await axios.post(
+                    "http://localhost:8080/plants", formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${jwt}`,
+                        },
+                    }
+                );
+            }
 
         //     return to Plant catalogpage after successful save
-        navigate("/catalog");
+        navigate("/catalog")
+        alert("Plant is opgeslagen");
         }catch (error){
             console.error("Plant opslaan mislukt", error);
             alert("Plant kon niet worden opgeslagen");
@@ -158,7 +211,7 @@ function PlantFormPage({mode}){
             <main>
                 <section>
                     <h1>
-                        Plant Formulier
+                        {mode === "edit" ? "Plant bewerken" :"Nieuwe plant opslaan"}
                     </h1>
 
                     <form onSubmit={handleSubmit}>
