@@ -7,6 +7,8 @@ import FormInputField from "../../ui/formInputField/FormInputField.jsx";
 import Button from "../../ui/button/Button.jsx";
 import FormSelect from "../../ui/FormSelect/FormSelect.jsx";
 import FormCheckbox from "../../ui/formCheckbox/FormCheckbox.jsx";
+import getErrorMessage from "../../../helpers/getErrorMessage.js";
+import ErrorBox from "../../ui/errorBox/ErrorBox.jsx";
 
 
 function PlantFormPage({mode}){
@@ -35,7 +37,7 @@ function PlantFormPage({mode}){
                 setPlant(response.data);
             } catch(error){
                 console.error("plant ophalen mislukt, error");
-                setError("Plant kon niet worden geladen");
+                setError(getErrorMessage(error));
             }
         }
         fetchPlant();
@@ -110,7 +112,7 @@ function PlantFormPage({mode}){
         alert("Plant is opgeslagen");
         }catch (error){
             console.error("Plant opslaan mislukt", error);
-            alert("Plant kon niet worden opgeslagen");
+            setError(getErrorMessage(error));
         }
     }
 
@@ -213,6 +215,8 @@ function PlantFormPage({mode}){
                     <h1>
                         {mode === "edit" ? "Plant bewerken" :"Nieuwe plant opslaan"}
                     </h1>
+
+                    {error && <ErrorBox>{error}</ErrorBox>}
 
                     <form onSubmit={handleSubmit}>
                         <FormInputField

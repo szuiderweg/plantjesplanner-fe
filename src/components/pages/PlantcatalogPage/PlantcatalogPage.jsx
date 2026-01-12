@@ -8,6 +8,8 @@ import madelief from "../../../assets/madelief.webp";
 import {CloudSun, Moon, Sun} from "phosphor-react";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import getErrorMessage from "../../../helpers/getErrorMessage.js";
+import ErrorBox from "../../ui/errorBox/ErrorBox.jsx";
 
 
 
@@ -40,7 +42,8 @@ function PlantcatalogPage(){
                 setUser(userResponse.data);
 
             }catch (err) {
-                setError("Planten konden niet worden opgehaald");
+                console.error("Planten konden niet worden opgehaald", err);
+                setError(getErrorMessage(err));
             } finally {
                 setLoading(false);
             }
@@ -48,13 +51,28 @@ function PlantcatalogPage(){
         fetchData();
         }, []);
 
-    if(loading) {
-        return <p> Planten laden...</p>;
+    async function handleDelete(plantId){
+        const confirmed = window.confirm("Weet je zeker dat je deze plant wilt verwijderen?");
+        if (!confirmed) return;
+
+        try {
+            const jwt = localStorage.getItem("jwt");
+            await axios.delete(`http://localhost:8080/plants/${plantId}`, {
+                headers: {
+                    Authorization:`Bearer ${jwt}`,
+                },
+            });
+
+        setPlants(prev => prev.filter(plant => plant.id !== plantId));
+
+        }catch (err){
+            console.error("Plant verwijderen mislukt", err);
+            setError(getErrorMessage(err));
+        }
     }
 
-    if (error) {
-        return <p>{error}</p>
-    }
+    // if(loading) { <p> Planten laden...</p>}
+
 
 
     return(
@@ -67,6 +85,10 @@ function PlantcatalogPage(){
 
                 <section>
                     <h1>Plantjes catalogus </h1>
+                    {error && <ErrorBox>{error}</ErrorBox>}
+                    {loading && <p> Planten laden...</p>}
+
+
                     <p>Ingelogd als: {user?.username} ({user?.role}) </p>
 
                     {user?.role === "ADMIN" && (
@@ -125,15 +147,26 @@ function PlantcatalogPage(){
                         <li key={plant.id}>
                             <h4>{plant.dutchName} - {plant.latinName} </h4>
                             {user?.role === "ADMIN" && (
+                                <>
                                 <Link to={`/plants/${plant.id}/edit`}>
                                     <Button type="button">
                                         Bewerken
                                     </Button>
                                 </Link>
+
+                                <Button
+                                    type = "button"
+                                    onClick = {() => handleDelete(plant.id)}
+                                >
+                                    Verwijderen
+                                </Button>
+                                </>
                             )}
                         </li>
                     ))}
                 </ul>
+
+
                 </section>
 
             </main>
