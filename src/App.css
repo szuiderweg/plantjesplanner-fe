@@ -30,14 +30,15 @@
 /*----2. declaration of variables ----*/
 :root { /* colors */
     --mint-cream: #eef3eb;
+    --tranparent-mint-cream:rgb(238, 243, 235, 0.8);
     --tea-green: #C8D6BB;
     --olivine: #AAC294;
     --hunter-green: #3E5A39;
-    --licorice: #1A1110;
-    --rose-ebony:#674846;
+    --deep-mocha: #44362F;
     --persian-red:#CC3333;
     --misty-rose:#FFE4E1;
     --shadow:#B2BEB5;
+    --highlight:#BBD5E4;
 
 }
 /*-------------------------------------------------------------------------------*/
@@ -64,7 +65,7 @@ body {
 main{
 }
 section{
-    background-color: var(--mint-cream);
+    background-color: var(--tranparent-mint-cream);
 }
 ul{ list-style-type: none;}
 

@@ -1,9 +1,9 @@
 .errorBox{
-    position: absolute;/*position relative to the form*/
-    top: 50%;
-    left:100%;
-    margin-left: 2em;
-    transform: translateY(-50%);
+    /*position: absolute;!*position relative to the form*!*/
+    /*top: 50%;*/
+    /*left:100%;*/
+    /*margin-left: 2em;*/
+    /*transform: translateY(-50%);*/
 
     min-width: 15em;
     max-width: 30em;

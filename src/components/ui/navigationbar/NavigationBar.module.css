@@ -1,0 +1,22 @@
+nav > ul{
+    display: flex;
+    justify-content: space-around;
+}
+
+
+
+nav{
+    padding: 10px;
+
+    background-color: var(--tea-green);
+}
+
+.active-menu-link {
+    background-color: var(--highlight);
+    color: var(--hunter-green);
+}
+
+.default-menu-link {
+    background-color: var(--hunter-green);
+    color: var(--mint-cream);
+}

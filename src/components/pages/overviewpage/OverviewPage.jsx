@@ -1,25 +1,15 @@
 import React,{useState} from "react";
 import styles from "./OverviewPage.module.css";
 import MyGardenForm from "../../MyGardenForm.jsx";
+import NavigationBar from "../../ui/navigationbar/NavigationBar.jsx";
+
 
 
 function OverviewPage(){
     return(
         <>
             <header>
-                <nav>
-                    <ul>
-                        <li><a href="/">start</a></li>
-                        <li><a href="/">tuin</a></li>
-                        <li><a href="/">plantenkiezer</a></li>
-                        <li><a href="/">plantencatalogus</a></li>
-                        <li><a href="/">moodboard</a></li>
-                        <li><a href="/">accounts beheren</a></li>
-                        <li><button type="button">account</button></li>
-                        <li><p>huidige inlognaam</p></li>
-                        <li><button type="button">uitloggen</button></li>
-                    </ul>
-                </nav>
+                <NavigationBar/>
             </header>
 
             <main>
@@ -84,20 +74,6 @@ function OverviewPage(){
                     <p>hergebruik plant preview </p>
                 </section>
 
-                <section>
-                    <h2>Plant catalogus </h2>
-                    <p >input type="search" zoek op naam </p>
-                    <p>lijst met zoekfunctie voor alle planten </p>
-                    <p>map door plant namen (1e regel preview) in een collapsible button. voorbeheerders ook een bewerken-knop </p>
-                    <ul>
-                        <li><p>plant</p></li>
-                        <li><p>plant</p></li>
-                        <li><p>plant</p></li>
-                        <li><p>plant</p></li>
-                    </ul>
-
-
-                </section>
 
                 <section>
                     <div>
@@ -154,10 +130,6 @@ function OverviewPage(){
                 {/*    <LoginPage/>*/}
                 {/*</section>*/}
             </main>
-
-            <footer>
-                <p>footer: PlantjesPlanner door Sophie</p>
-            </footer>
         </>
     );
 }
