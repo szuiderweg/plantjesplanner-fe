@@ -22,7 +22,7 @@ function FormInputField({
                 type={type}
                 id={id}
                 name={name}
-                value={value}
+                value={value ?? ""}
                 onChange={onChange}
                 className={styles.inputField}
                 {...rest}

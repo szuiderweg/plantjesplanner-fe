@@ -4,7 +4,7 @@ import NavigationBar from "../../ui/navigationbar/NavigationBar.jsx";
 import Button from "../../ui/button/Button.jsx";
 import FormInputField from "../../ui/formInputField/FormInputField.jsx";
 import logo from "../../../assets/logo.svg";
-import madelief from "../../../assets/madelief.webp";
+
 import {CloudSun, Moon, Sun} from "phosphor-react";
 import axios from "axios";
 import {Link} from "react-router-dom";

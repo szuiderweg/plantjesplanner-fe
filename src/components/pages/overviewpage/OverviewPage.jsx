@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import styles from "./OverviewPage.module.css";
-import MyGardenForm from "../../MyGardenForm.jsx";
+import MyGardenForm from "../../forms/myGardenForm/MyGardenForm.jsx";
 import NavigationBar from "../../ui/navigationbar/NavigationBar.jsx";
 
 
@@ -13,28 +13,28 @@ function OverviewPage(){
             </header>
 
             <main>
-                <section>  {/*MY GARDEN FORM*/}
-                    <h1>Mijn tuin</h1>
-                    <MyGardenForm />
+                {/*<section>  /!*MY GARDEN FORM*!/*/}
+                {/*    <h1>Mijn tuin</h1>*/}
+                {/*    <p> dit formulier is verplaatst</p>*/}
+                {/*    <MyGardenForm/>*/}
+                {/*    <a href="">naar overzicht </a>*/}
+                {/*    <a href="">volgende: plantenkiezer</a>*/}
+                {/*</section>*/}
 
-                    <a href="">naar overzicht </a>
-                    <a href="">volgende: plantenkiezer</a>
-                </section>
-
-                <section>
-                    <h2>Mijn tuin resultaat</h2>
-                    <p>mooie icoontjes mijn tuin info</p>
-                    <article>
-                        <p>toon de waarden uit het formulier met icoontje dat hoort bij de waarde, indien niet leeg</p>
-                        <p>garden name</p>
-                        <div>sun-icon, sun-value</div>
-                        <div>moist-icon, moisture-value</div>
-                        <div>wind-icon, wind-value</div>
-                        <div>plek-icon, radiobutton</div>
-                        <div>meetlat-icon (fixed), aantal plantjes of m2</div>
-                    </article>
-                    <a href=""> mijn tuin bewerken</a>
-                </section>
+                {/*<section>*/}
+                {/*    <h2>Mijn tuin resultaat</h2>*/}
+                {/*    <p>mooie icoontjes mijn tuin info</p>*/}
+                {/*    <article>*/}
+                {/*        <p>toon de waarden uit het formulier met icoontje dat hoort bij de waarde, indien niet leeg</p>*/}
+                {/*        <p>garden name</p>*/}
+                {/*        <div>sun-icon, sun-value</div>*/}
+                {/*        <div>moist-icon, moisture-value</div>*/}
+                {/*        <div>wind-icon, wind-value</div>*/}
+                {/*        <div>plek-icon, radiobutton</div>*/}
+                {/*        <div>meetlat-icon (fixed), aantal plantjes of m2</div>*/}
+                {/*    </article>*/}
+                {/*    <a href=""> mijn tuin bewerken</a>*/}
+                {/*</section>*/}
 
                 <section>
                     <h2>Plant formulier voor beheerders</h2>

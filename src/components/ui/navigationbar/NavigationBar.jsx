@@ -12,8 +12,15 @@ function NavigationBar(){
                         to = "/overview">
                         {/*<House size={32} color="#3b4d3c" weight="fill" /> */}
                         Start
-                    </NavLink></li>
-                    <li><a href="/">tuin</a></li>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                        className={({ isActive}) => isActive ? 'active-menu-link':'default-menu-link'}
+                        to = "/my-garden">
+                        Mijn tuin
+                        </NavLink>
+                    </li>
                     <li><a href="/">plantenkiezer</a></li>
                     <li>
                         <NavLink

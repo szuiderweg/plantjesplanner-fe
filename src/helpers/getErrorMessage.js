@@ -1,4 +1,4 @@
-function getErrorMessage(error){
+export default function getErrorMessage(error){
     if (error.response?.data){
         return error.response.data;
     }
@@ -7,5 +7,3 @@ function getErrorMessage(error){
     }
     return "Er is een onbekende fout opgetreden."
 }
-
-export default getErrorMessage;

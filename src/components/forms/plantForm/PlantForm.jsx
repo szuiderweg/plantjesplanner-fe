@@ -1,6 +1,5 @@
 import React,{useState, useEffect} from "react";
-import styles from "./PlantFormPage.module.css";
-import NavigationBar from "../../ui/navigationbar/NavigationBar.jsx";
+import styles from "./PlantForm.module.css";
 import {useParams, useNavigate} from "react-router-dom";
 import axios from "axios";
 import FormInputField from "../../ui/formInputField/FormInputField.jsx";
@@ -9,113 +8,14 @@ import FormSelect from "../../ui/FormSelect/FormSelect.jsx";
 import FormCheckbox from "../../ui/formCheckbox/FormCheckbox.jsx";
 import getErrorMessage from "../../../helpers/getErrorMessage.js";
 import ErrorBox from "../../ui/errorBox/ErrorBox.jsx";
+import normalizeDecimal from "../../../helpers/normalizeDecimal.js";
 
 
-function PlantFormPage({mode}){
+function PlantForm({mode}){
     const {id} = useParams();
     const navigate = useNavigate();
-
+    const [image, setImage] = useState(null);
     const [error, setError] = useState("");
-
-    // for editing mode only: useEffect to retrieve existing plant data from backend
-    useEffect(()=> {
-        if (mode !== "edit") return;
-
-        async function fetchPlant(){
-            try{
-                const jwt = localStorage.getItem("jwt");
-
-                const response = await axios.get(
-                    `http://localhost:8080/plants/${id}`,
-                    {
-                        headers:{
-                            Authorization: `Bearer ${jwt}`,
-                        },
-                    }
-                );
-
-                setPlant(response.data);
-            } catch(error){
-                console.error("plant ophalen mislukt, error");
-                setError(getErrorMessage(error));
-            }
-        }
-        fetchPlant();
-    }, [mode, id]);
-
-    //helper to fill formData for POST and PUT requests
-    function buildFormData(){
-        // this bit
-        const payload = {
-            ...plant,
-            height: normalizeDecimal(plant.height),
-            footprint: normalizeDecimal(plant.footprint),
-        };
-
-        //create form data for plant
-        const formData = new FormData();
-        formData.append(
-            "plant", new Blob([JSON.stringify(payload)], {type:"application/json" })
-        );
-
-        //add image file for upload to formData if present
-        if (image) {
-            formData.append("image", image);
-        }
-        return formData;
-    }
-
-    //helper to replace the decimal symbol comma ',' with point '.' so the backend recognizes it as a decimal number.
-    function normalizeDecimal(value){
-        //return 0 if value is not a number
-        if (value === null || value === undefined || value === "") return 0;
-
-        //return unchanged value if value is a number (with a .)
-        if (typeof value === "number") return value;
-        //otherwise replace ',' with '.'
-        return value.replace(",",".");
-    }
-
-
-
-    const handleSubmit = async (e) =>{
-        e.preventDefault();
-        try{
-            const jwt = localStorage.getItem("jwt");
-            const formData = buildFormData();
-
-            //if the page is in edit-mode, do PUT request, else do POST request
-            if( mode === "edit"){
-                await axios.put(
-                    `http://localhost:8080/plants/${id}`,
-                    formData,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${jwt}`,
-                        },
-                    }
-                );
-
-            }else{
-                await axios.post(
-                    "http://localhost:8080/plants", formData,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${jwt}`,
-                        },
-                    }
-                );
-            }
-
-        //     return to Plant catalogpage after successful save
-        navigate("/catalog")
-        alert("Plant is opgeslagen");
-        }catch (error){
-            console.error("Plant opslaan mislukt", error);
-            setError(getErrorMessage(error));
-        }
-    }
-
     const[plant, setPlant] = useState({
         dutchName: "",
         latinName: "",
@@ -151,7 +51,98 @@ function PlantFormPage({mode}){
 
     });
 
-    const [image, setImage] = useState(null);
+    // for editing mode only: useEffect to retrieve existing plant data from backend
+    useEffect(()=> {
+        if (mode !== "edit") return;
+
+        async function fetchPlant(){
+            try{
+                const jwt = localStorage.getItem("jwt");
+
+                const response = await axios.get(
+                    `http://localhost:8080/plants/${id}`,
+                    {
+                        headers:{
+                            Authorization: `Bearer ${jwt}`,
+                        },
+                    }
+                );
+
+                setPlant(response.data);
+            } catch(error){
+                console.error("plant ophalen mislukt, error");
+                setError(getErrorMessage(error));
+            }
+        }
+        fetchPlant();
+    }, [mode, id]);
+
+    //helper to fill height anformData for POST and PUT requests
+    function buildFormData(){
+        const payload = {
+            ...plant,
+            height: normalizeDecimal(plant.height),
+            footprint: normalizeDecimal(plant.footprint),
+        };
+
+        //create form data for plant
+        const formData = new FormData();
+        formData.append(
+            "plant", new Blob([JSON.stringify(payload)], {type:"application/json" })
+        );
+
+        //add image file for upload to formData if present
+        if (image) {
+            formData.append("image", image);
+        }
+        return formData;
+    }
+
+
+
+
+
+    const handleSubmit = async (e) =>{
+        e.preventDefault();
+        try{
+            const jwt = localStorage.getItem("jwt");
+            const formData = buildFormData();
+
+            //if the page is in edit-mode, do PUT request, else do POST request
+            if( mode === "edit"){
+                await axios.put(
+                    `http://localhost:8080/plants/${id}`,
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${jwt}`,
+                        },
+                    }
+                );
+
+            }else{
+                await axios.post(
+                    "http://localhost:8080/plants", formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${jwt}`,
+                        },
+                    }
+                );
+            }
+
+            //     return to Plant catalogpage after successful save
+            navigate("/catalog")
+            alert("Plant is opgeslagen");
+        }catch (error){
+            console.error("Plant opslaan mislukt", error);
+            setError(getErrorMessage(error));
+        }
+    }
+
+
+
+
 
 
 
@@ -161,14 +152,12 @@ function PlantFormPage({mode}){
         setPlant(prev => ({
             ...prev,
             [name]:
-                type === "checkbox"
-                    ? checked
-                    : value === ""
-                        ? null
-                        : value,
+                type === "checkbox" ? checked: value,
+
         }));
     }
 
+    //change handlers for nested dto's in Plant Dto
     function handleLocaleChange(e){
         const{name, value, type, checked} = e.target;
         setPlant(prev=> ({
@@ -176,11 +165,7 @@ function PlantFormPage({mode}){
             localeDto: {
                 ...prev.localeDto,
                 [name]:
-                    type === "checkbox"
-                        ? checked :
-                        value === ""
-                        ? null
-                        : value,
+                    type === "checkbox" ? checked: value,
             },
         }));
     }
@@ -206,11 +191,7 @@ function PlantFormPage({mode}){
 
     return(
         <>
-            <header>
-                <NavigationBar/>
-            </header>
 
-            <main>
                 <section>
                     <h1>
                         {mode === "edit" ? "Plant bewerken" :"Nieuwe plant opslaan"}
@@ -442,7 +423,6 @@ function PlantFormPage({mode}){
 
                 </section>
 
-            </main>
 
         </>
 
@@ -450,4 +430,4 @@ function PlantFormPage({mode}){
     );
 }
 
-export default PlantFormPage;
+export default PlantForm;
