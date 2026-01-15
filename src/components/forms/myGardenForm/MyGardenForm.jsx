@@ -7,6 +7,7 @@ import FormInputField from "../../ui/formInputField/FormInputField.jsx";
 import FormSelect from "../../ui/FormSelect/FormSelect.jsx";
 import FormCheckbox from "../../ui/formCheckbox/FormCheckbox.jsx";
 import Button from "../../ui/button/Button.jsx";
+import ErrorBox from "../../ui/errorBox/ErrorBox.jsx";
 
 
 function MyGardenForm() {
@@ -98,11 +99,11 @@ function MyGardenForm() {
         }));
     }
 
-
-
     return (
         <>
-        {/*    error */}
+            {error && <ErrorBox>{error}</ErrorBox>}
+
+            <h1> Mijn tuin</h1>
             <form onSubmit={handleSubmit}>
                 <FormInputField
                     label="Naam van je tuin"

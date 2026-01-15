@@ -1,5 +1,5 @@
 import MyGardenForm from "../../forms/myGardenForm/MyGardenForm.jsx";
-import NavigationBar from "../../ui/navigationbar/NavigationBar.jsx";
+import NavigationBar from "../../layout/navigationbar/NavigationBar.jsx";
 import React from "react";
 
 function MyGardenPage(){
@@ -11,7 +11,6 @@ function MyGardenPage(){
 
             <main>
               <section>
-               <h1> Mijn tuin</h1>
                 <MyGardenForm/>
               </section>
 

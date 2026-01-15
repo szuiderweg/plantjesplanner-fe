@@ -69,6 +69,10 @@ section{
 }
 ul{ list-style-type: none;}
 
+aside{
+    background-color: var(--tranparent-mint-cream);
+}
+
 main{
     aspect-ratio:2500 / 1771;
     width: 100vw;

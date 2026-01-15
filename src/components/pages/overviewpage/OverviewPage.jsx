@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import styles from "./OverviewPage.module.css";
 import MyGardenForm from "../../forms/myGardenForm/MyGardenForm.jsx";
-import NavigationBar from "../../ui/navigationbar/NavigationBar.jsx";
+import NavigationBar from "../../layout/navigationbar/NavigationBar.jsx";
 
 
 

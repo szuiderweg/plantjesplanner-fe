@@ -192,7 +192,7 @@ function PlantForm({mode}){
     return(
         <>
 
-                <section>
+
                     <h1>
                         {mode === "edit" ? "Plant bewerken" :"Nieuwe plant opslaan"}
                     </h1>
@@ -421,7 +421,7 @@ function PlantForm({mode}){
                         </Button>
                     </form>
 
-                </section>
+
 
 
         </>

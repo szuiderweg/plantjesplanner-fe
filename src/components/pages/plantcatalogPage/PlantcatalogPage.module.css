@@ -1,16 +1,6 @@
-.searchBar {
+.layout {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    align-items: flex-start;
 }
 
-.searchBar form {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
 
-details {
-    border: magenta 1px solid;
-    max-width: 40vw;
-}
