@@ -1,11 +1,55 @@
-import React,{useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./OverviewPage.module.css";
 import MyGardenForm from "../../forms/myGardenForm/MyGardenForm.jsx";
 import NavigationBar from "../../layout/navigationbar/NavigationBar.jsx";
+import axios from "axios";
+
 
 
 
 function OverviewPage(){
+    //this page is always loaded after successful login, so this is logical location for an API call to obtain user info and store it in local Storage
+    const [jwt, setJwt] = useState(localStorage.getItem("jwt"));
+    const [role, setRole] = useState(localStorage.getItem("role"));
+    const [username, setUsername] = useState(localStorage.getItem("username"));
+
+
+    useEffect(() => {
+        async function fetchUser() {
+            if (!jwt) return;
+
+            try {
+                const response = await axios.get(
+                    "http://localhost:8080/users/me",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${jwt}`,
+                        },
+                    }
+                );
+                //store info from response
+                const roleFromBackend = response.data.role;
+                const usernameFromBackend = response.data.username;
+                //update State
+                setRole(roleFromBackend);
+                setUsername(usernameFromBackend);
+                //update local storage
+                localStorage.setItem("role", roleFromBackend);
+                localStorage.setItem("username", usernameFromBackend);
+
+            } catch (e) {
+                console.error("User ophalen mislukt");
+            }
+        }
+
+        fetchUser();
+    }, [jwt]);
+
+
+
+
+
+
     return(
         <>
             <header>

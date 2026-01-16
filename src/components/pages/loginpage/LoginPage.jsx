@@ -47,7 +47,8 @@ function LoginPage({onLogin}) {
             {(activeForm === "login" || activeForm === "register") && (
             <section id="login-form-section">
             {activeForm ==="login" && <LoginForm onLogin={handleLoginSuccess} />}
-                {activeForm ==="register" && <NewAccountForm onRegistration={handleLoginSuccess}/>}
+                {activeForm ==="register" && <NewAccountForm endpoint="http://localhost:8080/users/register"
+                                                                 title="Nieuw account maken" onRegistration={handleLoginSuccess}/>}
             </section>
                 )}
 

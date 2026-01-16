@@ -21,7 +21,7 @@ function NavigationBar(){
                         Mijn tuin
                         </NavLink>
                     </li>
-                    <li><a href="/">plantenkiezer</a></li>
+
                     <li>
                         <NavLink
                             className={({ isActive}) => isActive ? 'active-menu-link':'default-menu-link'}
@@ -29,8 +29,14 @@ function NavigationBar(){
                                 Plantjes catalogus
                         </NavLink>
                     </li>
-                    <li><a href="/">moodboard</a></li>
-                    <li><a href="/">accounts beheren</a></li>
+
+                    <li>     <NavLink
+                        className={({ isActive}) => isActive ? 'active-menu-link':'default-menu-link'}
+                        to = "/usermanagement">
+                        Accounts beheren
+                    </NavLink>
+                    </li>
+
                     <li><button type="button">account</button></li>
                     {/*<User size={32} color="#3b4d3c" weight="fill" />*/}
                     {/*<SignOut size={32} color="#3b4d3c" weight="fill" />*/}
