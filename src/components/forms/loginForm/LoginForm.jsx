@@ -33,10 +33,13 @@ function LoginForm({onLogin}) {
         try {
             const response = await axios.post("http://localhost:8080/login", credentials);
             const jwt = response.data;
+            localStorage.setItem("jwt",jwt);  //obtain jwt from response of API call and put it in localstorage
 
-            localStorage.setItem("jwt",jwt);
-            onLogin(jwt);
-            navigate("/overview");
+            if(onLogin) {
+                onLogin(jwt);
+                navigate("/overview");
+            }
+
         } catch (err) {
             setError("Inloggen mislukt. probeer het nog eens")
         }

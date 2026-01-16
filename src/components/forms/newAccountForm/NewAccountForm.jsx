@@ -5,7 +5,7 @@ import FormInputField from "../../ui/formInputField/FormInputField.jsx";
 import styles from "./NewAccountForm.module.css"
 import axios from "axios";
 
-function NewAccountForm({onRegistration}) {
+function NewAccountForm({endpoint, title, onRegistration}) {
     const [credentials, setCredentials] = useState({
         username: "",
         password: "",
@@ -31,17 +31,36 @@ function NewAccountForm({onRegistration}) {
         }
 
         try {
-            const response = await axios.post("http://localhost:8080/users/register", credentials);
-            const jwt = response.data;
-            onRegistration();
+          const jwt = localStorage.getItem("jwt");
+
+          await axios.post(endpoint,
+              {
+                  username:credentials.username,
+                  password:credentials.password
+              },
+              jwt
+                  ? { headers: { Authorization: `Bearer ${jwt}` } }
+                  : undefined //if the header contains an Authorization (needed to creat admin account) use jwt, else  Autherization is undefined
+              );
+            alert("Account succesvol aangemaakt!");
+
+
+          if(onRegistration){
+              onRegistration();
+          }
+
         } catch (err) {
-            setError("Inloggen mislukt. probeer het nog eens")
+            if (err.response?.status === 409) {
+                setError("Deze gebruikersnaam bestaat al.");
+            } else {
+                setError("Account aanmaken mislukt. Probeer het nog eens.");
+            }
         }
     };
 
     return (
         <>
-            <h2 className={styles.newAccountFormTitle}>Nieuw account maken</h2>
+            <h2 className={styles.newAccountFormTitle}>{title}</h2>
         <form onSubmit={handleSubmit} className={styles.newAccountForm}
         >
             {error && <ErrorBox>{error}</ErrorBox>}
