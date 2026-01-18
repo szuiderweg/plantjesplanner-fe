@@ -1,19 +1,53 @@
 import React from "react";
-import { Link, NavLink } from 'react-router-dom';
+import {  NavLink, useNavigate } from 'react-router-dom';
 import styles from './NavigationBar.module.css';
+import {House, SignOut} from "phosphor-react";
+import Button from "../../ui/button/Button.jsx";
 
 function NavigationBar(){
+
+    const navigate = useNavigate();
+    //constants needed for logout function "handleLogout"
+    const role = localStorage.getItem("role"); // "DESIGNER" or "ADMIN"
+    const username = localStorage.getItem("username");
+
+    //log out by deleting credentials and jwt from local storage. the Routing defined below will automatically redirect to login page when there is no jwt present
+    function handleLogout() {
+        localStorage.removeItem("jwt");
+        localStorage.removeItem("role");
+        localStorage.removeItem("username");
+
+        navigate("/");
+    }
+
+
+
     return(
         <>
             <nav>
                 <ul>
-                    <li>  <NavLink
+                    <li>
+                        {/*Overview page "Start" -- all roles */}
+                        <NavLink
                         className={({ isActive}) => isActive ? 'active-menu-link':'default-menu-link'}
                         to = "/overview">
-                        {/*<House size={32} color="#3b4d3c" weight="fill" /> */}
+                        <House size={32} color="#3b4d3c" weight="fill" />
                         Start
                         </NavLink>
                     </li>
+
+                    {/*Plant catalog page " Planten catalogus -- all roles"*/}
+
+                    <li>
+                        <NavLink
+                            className={({ isActive}) => isActive ? 'active-menu-link':'default-menu-link'}
+                            to = "/catalog">
+                            Planten catalogus
+                        </NavLink>
+                    </li>
+
+                    {/* MyGarden page "Mijn tuin" -- DESIGNER only*/}
+                    {role?.toUpperCase() === "DESIGNER" && (
                     <li>
                         <NavLink
                         className={({ isActive}) => isActive ? 'active-menu-link':'default-menu-link'}
@@ -21,27 +55,36 @@ function NavigationBar(){
                         Mijn tuin
                         </NavLink>
                     </li>
+                    )}
 
-                    <li>
+                    {/* Usermanagement page "Accounts beheren" -- ADMIN only*/}
+                    { role?.toUpperCase() === "ADMIN" && (
+                        <li>
                         <NavLink
-                            className={({ isActive}) => isActive ? 'active-menu-link':'default-menu-link'}
-                            to = "/catalog">
-                                Plantjes catalogus
-                        </NavLink>
-                    </li>
-
-                    <li>     <NavLink
                         className={({ isActive}) => isActive ? 'active-menu-link':'default-menu-link'}
                         to = "/usermanagement">
                         Accounts beheren
                     </NavLink>
                     </li>
+                    )}
 
-                    <li><button type="button">account</button></li>
-                    {/*<User size={32} color="#3b4d3c" weight="fill" />*/}
-                    {/*<SignOut size={32} color="#3b4d3c" weight="fill" />*/}
-                    <li><p>huidige inlognaam</p></li>
-                    <li><button type="button">uitloggen</button></li>
+                    <li className={styles.userInfo}>
+                        <span>{username}</span>
+                    </li>
+
+
+                    <li>
+
+                    <Button
+                        type="button"
+                        onClick={handleLogout}
+                    >
+                        <SignOut size={32} color="#3b4d3c" weight="fill" /> Uitloggen
+                    </Button>
+                    </li>
+
+
+
                 </ul>
             </nav>
         </>

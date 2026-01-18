@@ -13,23 +13,13 @@ function App() {
     const [jwt, setJwt] = useState(localStorage.getItem("jwt"));
     const [role, setRole] = useState(localStorage.getItem("role"));
 
-    //login
+    //login function
     function handleLogin(jwt, role) {
         setJwt(jwt);
         setRole(role);
     }
 
-    // //logout
-    // function handleLogout() {
-    //     //clear credentials from localstorage
-    //     localStorage.removeItem("jwt");
-    //     localStorage.removeItem("role");
-    //     localStorage.removeItem("username");
-    //
-    //     //clear State
-    //     setJwt(null);
-    //     setRole(null);
-    // }
+
 
 
     return (
@@ -38,8 +28,8 @@ function App() {
             <Route path="/" element={<LoginPage onLogin={handleLogin}/>} />
             <Route path="/usermanagement" element={localStorage.getItem("jwt") && localStorage.getItem("role") === "ADMIN" ? <UserManagementPage/> :<Navigate to="/"/>}/>
             <Route path="/overview"  element={jwt? <OverviewPage/> :<Navigate to="/" />} />
-            <Route path="/my-garden" element={jwt? <MyGardenPage/> : <Navigate to="/overview"/>} />
-            <Route path = "/catalog" element={jwt? <PlantcatalogPage/> :<Navigate to="/overview"/>}/>
+            <Route path="/my-garden" element={jwt? <MyGardenPage/> : <Navigate to="/"/>} />
+            <Route path = "/catalog" element={jwt? <PlantcatalogPage/> :<Navigate to="/"/>}/>
             <Route path = "/plants/new" element={jwt ? <PlantFormPage mode = "create"/> : <Navigate to="/catalog" /> } />
             <Route path = "/plants/:id/edit" element={jwt ? <PlantFormPage mode = "edit"/> : <Navigate to="/catalog" /> } />
         </Routes>
