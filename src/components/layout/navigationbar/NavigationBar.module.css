@@ -7,9 +7,13 @@ nav > ul{
 
 nav{
     padding: 10px;
-
     background-color: var(--tea-green);
 }
+
+.userInfo{}
+
+
+
 
 .active-menu-link {
     background-color: var(--highlight);

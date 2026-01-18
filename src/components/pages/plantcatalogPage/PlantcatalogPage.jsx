@@ -76,6 +76,8 @@ function PlantcatalogPage(){
 
     //get SelectedPlants from the Design of the user: first define fetchDesign as a reusable function, because it is needed for both loading the page for the first time and updating SelectedPlants
     async function fetchDesign() {
+
+
         try {
             const jwt = localStorage.getItem("jwt");
 
@@ -93,8 +95,9 @@ function PlantcatalogPage(){
             setError("Kon tuinontwerp niet ophalen");
         }
     }
-    //useEffect to load design for the first time
+    //useEffect to load design (DESIGNER role only) for the first time
     useEffect(() => {
+        if(user?.role === "DESIGNER" )
         fetchDesign();
     }, []);
 
@@ -201,8 +204,6 @@ function PlantcatalogPage(){
                     {loading && <p> Planten laden...</p>}
 
 
-                    <p>Ingelogd als: {user?.username} ({user?.role}) </p>
-
                     {user?.role === "ADMIN" && (
                         <Link to="/plants/new">
                             <Button type="button">
@@ -254,11 +255,14 @@ function PlantcatalogPage(){
 
                 </section>
 
+                {/*show aside only when role === "DESIGNER"*/}
+                { user?.role === "DESIGNER" && (
                 <SelectedPlantsAside
                     selectedPlants={selectedPlants}
                     onAmountChange={handleUpdateSelectedPlantAmount}
                     onDelete={handleDeleteSelectedPlant}
                 />
+                    )}
             </main>
 
         </>

@@ -7,8 +7,9 @@ import axios from "axios";
 
 
 
+
 function OverviewPage(){
-    //this page is always loaded after successful login, so this is logical location for an API call to obtain user info and store it in local Storage
+    //this page is always loaded after successful login, so this is logical location for an API call to obtain user info and store it in local Storage for later use
     const [jwt, setJwt] = useState(localStorage.getItem("jwt"));
     const [role, setRole] = useState(localStorage.getItem("role"));
     const [username, setUsername] = useState(localStorage.getItem("username"));

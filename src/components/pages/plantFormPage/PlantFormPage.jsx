@@ -6,7 +6,7 @@ function PlantFormPage(){
     return(
         <>
             <header>
-                <NavigationBar/>
+                <NavigationBar />
             </header>
 
             <main>
