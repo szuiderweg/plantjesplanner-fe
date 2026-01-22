@@ -20,13 +20,20 @@ function SelectedPlantsAside({ selectedPlants = [] , onAmountChange, onDelete })
 
     function handleSubmit(e){
         e.preventDefault();
+
+        let didUpdate = false; //stores  if amount of plants has changed outside the for-loop to trigger an alert.
         //iterate over selectedPlants and trigger the onAmountChange function if the amount of a selectedPlant has changed
         for(const sp of selectedPlants){
             const newAmount = Number(formValues[sp.id]);
             if(newAmount !== sp.amount){
                 onAmountChange(sp.id, newAmount);
+                didUpdate = true;
             }
         }
+        if(didUpdate){
+            alert("Jouw selectie is opgeslagen")
+        }
+
     }
 
 
@@ -41,7 +48,7 @@ function SelectedPlantsAside({ selectedPlants = [] , onAmountChange, onDelete })
 
     return (
         <aside className={styles.aside}>
-            <h3>Mijn planten</h3>
+            <h3 className={styles.title}>Mijn planten</h3>
 
             <form onSubmit={handleSubmit}>
             <ul className={styles.list}>
@@ -52,7 +59,7 @@ function SelectedPlantsAside({ selectedPlants = [] , onAmountChange, onDelete })
                         return(
                         <li key={sp.id} className={styles.listItem}>
                             <span> {sp.plantDto.dutchName}</span>
-                           <FormInputField
+                           <FormInputField id={styles.amountInput}
                                 type = "number"
                                 min ="1"
                                 value = {formValues[sp.id] ?? ""}
@@ -73,7 +80,7 @@ function SelectedPlantsAside({ selectedPlants = [] , onAmountChange, onDelete })
                         );
                 })}
             </ul>
-                <Button type="submit">Opslaan</Button>
+                <Button id={styles.saveButton} type="submit" >Opslaan</Button>
             </form>
         </aside>
     );

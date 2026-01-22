@@ -10,6 +10,7 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import getErrorMessage from "../../../helpers/getErrorMessage.js";
 import ErrorBox from "../../ui/errorBox/ErrorBox.jsx";
+import PlantCard from "../../layout/plantCard/PlantCard.jsx"
 
 
 
@@ -74,7 +75,7 @@ function PlantcatalogPage(){
         }
     }
 
-    //get SelectedPlants from the Design of the user: first define fetchDesign as a reusable function, because it is needed for both loading the page for the first time and updating SelectedPlants
+    //get SelectedPlants from the Design of the user
     async function fetchDesign() {
 
 
@@ -95,11 +96,11 @@ function PlantcatalogPage(){
             setError("Kon tuinontwerp niet ophalen");
         }
     }
-    //useEffect to load design (DESIGNER role only) for the first time
+    //useEffect to load design (DESIGNER role only)
     useEffect(() => {
         if(user?.role === "DESIGNER" )
         fetchDesign();
-    }, []);
+    }, [user]);
 
 
     //add reference to a plant and an amount to selectedPlant list (designer only)
@@ -122,6 +123,7 @@ function PlantcatalogPage(){
 
             // backend returns a new SelectedPlantDto and frontend State is updated
             await fetchDesign(); //refresh Design
+            alert("Plant is toegevoegd aan jouw ontwerp");
 
         } catch (error) {
             console.error("Plant toevoegen mislukt", error);
@@ -196,8 +198,8 @@ function PlantcatalogPage(){
                 <NavigationBar/>
             </header>
 
-            <main className={styles.layout}>
-
+            <main className={styles.outerContainer}>
+                <div className={styles.innerContainer}>
                 <section>
                     <h1>Plantjes catalogus </h1>
                     {error && <ErrorBox>{error}</ErrorBox>}
@@ -217,8 +219,8 @@ function PlantcatalogPage(){
 
                 <ul>
                     {plants.map((plant) => (
-                        <li key={plant.id}>
-                            <h4>{plant.dutchName} - {plant.latinName} </h4>
+                        <li key={plant.id } className={styles.plantItem}>
+                            <PlantCard plant = {plant} />
 
                             {/* button for designer users*/}
                             {user?.role === "DESIGNER" && (
@@ -226,7 +228,7 @@ function PlantcatalogPage(){
                                     type="button"
                                     onClick={() => handleAddToSelectedPlants(plant.id)}
                                 >
-                                    Toevoegen
+                                    Toevoegen aan ontwerp
                                 </Button>
                             )}
 
@@ -257,12 +259,13 @@ function PlantcatalogPage(){
 
                 {/*show aside only when role === "DESIGNER"*/}
                 { user?.role === "DESIGNER" && (
-                <SelectedPlantsAside
+                <SelectedPlantsAside className={styles.selectedPlantsAside}
                     selectedPlants={selectedPlants}
                     onAmountChange={handleUpdateSelectedPlantAmount}
                     onDelete={handleDeleteSelectedPlant}
                 />
                     )}
+                </div>
             </main>
 
         </>
