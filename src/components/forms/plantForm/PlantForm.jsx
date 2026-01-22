@@ -9,6 +9,7 @@ import FormCheckbox from "../../ui/formCheckbox/FormCheckbox.jsx";
 import getErrorMessage from "../../../helpers/getErrorMessage.js";
 import ErrorBox from "../../ui/errorBox/ErrorBox.jsx";
 import normalizeDecimal from "../../../helpers/normalizeDecimal.js";
+import mapPlantDtoToFormState from "../../../helpers/mapPlantDtoToFormState.js";
 
 
 function PlantForm({mode}){
@@ -50,7 +51,6 @@ function PlantForm({mode}){
         }
 
     });
-
     // for editing mode only: useEffect to retrieve existing plant data from backend
     useEffect(()=> {
         if (mode !== "edit") return;
@@ -68,7 +68,7 @@ function PlantForm({mode}){
                     }
                 );
 
-                setPlant(response.data);
+                setPlant(mapPlantDtoToFormState(response.data));
             } catch(error){
                 console.error("plant ophalen mislukt, error");
                 setError(getErrorMessage(error));
@@ -191,8 +191,6 @@ function PlantForm({mode}){
 
     return(
         <>
-
-
                     <h1>
                         {mode === "edit" ? "Plant bewerken" :"Nieuwe plant opslaan"}
                     </h1>
@@ -420,13 +418,7 @@ function PlantForm({mode}){
                             Opslaan
                         </Button>
                     </form>
-
-
-
-
         </>
-
-
     );
 }
 

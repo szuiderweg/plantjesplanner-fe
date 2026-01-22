@@ -2,7 +2,7 @@ import PlantForm from "../../forms/plantForm/PlantForm.jsx";
 import NavigationBar from "../../layout/navigationbar/NavigationBar.jsx";
 import React from "react";
 
-function PlantFormPage(){
+function PlantFormPage({mode}){
     return(
         <>
             <header>
@@ -11,7 +11,7 @@ function PlantFormPage(){
 
             <main>
                 <section>
-                  <PlantForm/>
+                  <PlantForm mode={mode}/>
                 </section>
             </main>
 

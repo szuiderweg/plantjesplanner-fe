@@ -15,6 +15,9 @@ function App() {
 
     //login function
     function handleLogin(jwt, role) {
+        localStorage.setItem("jwt", jwt);
+        localStorage.setItem("role", role);
+
         setJwt(jwt);
         setRole(role);
     }
@@ -25,13 +28,28 @@ function App() {
     return (
 //routing configuration
         <Routes>
-            <Route path="/" element={<LoginPage onLogin={handleLogin}/>} />
-            <Route path="/usermanagement" element={localStorage.getItem("jwt") && localStorage.getItem("role") === "ADMIN" ? <UserManagementPage/> :<Navigate to="/"/>}/>
-            <Route path="/overview"  element={jwt? <OverviewPage/> :<Navigate to="/" />} />
-            <Route path="/my-garden" element={jwt? <MyGardenPage/> : <Navigate to="/"/>} />
-            <Route path = "/catalog" element={jwt? <PlantcatalogPage/> :<Navigate to="/"/>}/>
-            <Route path = "/plants/new" element={jwt ? <PlantFormPage mode = "create"/> : <Navigate to="/catalog" /> } />
-            <Route path = "/plants/:id/edit" element={jwt ? <PlantFormPage mode = "edit"/> : <Navigate to="/catalog" /> } />
+            <Route
+                path="/"
+                element={<LoginPage onLogin={handleLogin}/>} />
+            <Route
+                path="/usermanagement"
+                element={jwt && role === "ADMIN" ? <UserManagementPage/> :<Navigate to="/"/>}/>
+            <Route
+                path="/overview"
+                element={jwt? <OverviewPage/> :<Navigate to="/" />} />
+            <Route
+                path="/my-garden"
+                element={jwt && role === "DESIGNER" ? <MyGardenPage/> : <Navigate to="/"/>} />
+            <Route
+                path = "/catalog"
+                element={jwt? <PlantcatalogPage/> :<Navigate to="/"/>}/>
+            <Route
+                path = "/plants/new"
+                element={jwt && role === "ADMIN"
+                    ? <PlantFormPage mode = "create"/> : <Navigate to="/catalog" /> } />
+            <Route
+                path = "/plants/:id/edit"
+                element={jwt && role === "ADMIN" ? <PlantFormPage mode = "edit"/> : <Navigate to="/catalog" /> } />
         </Routes>
     );
 }
