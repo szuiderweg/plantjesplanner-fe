@@ -3,8 +3,10 @@ import styles from "./PlantCard.module.css";
 import defaultPlant from '../../../assets/default_plant.jpg';
 import {Flower} from "phosphor-react";
 import axios from "axios";
+import Button from "../../ui/button/Button.jsx";
+import {Link} from "react-router-dom";
 
-function PlantCard({ plant,  }){
+function PlantCard({ plant, userRole, onAddToDesign, onDelete }){
     const [isOpen, setIsOpen] = useState(false);//registers if drop-down part of <details> element is open or not
     const [imageUrl, setImageUrl] = useState(null);// URL to plant avatarimage
     const [imageError, setImageError] = useState(false);// trigger for fallback is case of missing image
@@ -130,6 +132,37 @@ function PlantCard({ plant,  }){
                         </tr>
                         </tbody>
                     </table>
+
+                    <div className={styles.cardButtonRow}>
+                    {/* button for designer users*/}
+                    {userRole === "DESIGNER" && (
+                        <Button
+                            type="button"
+                            onClick={() => onAddToDesign(plant.id)}
+                        >
+                            Toevoegen aan ontwerp
+                        </Button>
+                    )}
+
+
+                    {/*buttons for admin users*/}
+                    {userRole === "ADMIN" && (
+                        <>
+                            <Link to={`/plants/${plant.id}/edit`}>
+                                <Button type="button">
+                                    Bewerken
+                                </Button>
+                            </Link>
+
+                            <Button
+                                type = "button"
+                                onClick = {() => onDelete(plant.id)}
+                            >
+                                Verwijderen
+                            </Button>
+                        </>
+                        )}
+                    </div>
                 </div>
             </div>
         </details>

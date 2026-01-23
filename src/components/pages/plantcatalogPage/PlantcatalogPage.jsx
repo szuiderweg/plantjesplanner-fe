@@ -2,48 +2,37 @@ import React, {useEffect, useState} from "react";
 import styles from "./PlantcatalogPage.module.css";
 import NavigationBar from "../../layout/navigationbar/NavigationBar.jsx";
 import Button from "../../ui/button/Button.jsx";
-import FormInputField from "../../ui/formInputField/FormInputField.jsx";
-import logo from "../../../assets/logo.svg";
 import SelectedPlantsAside from "../../layout/selectedPlantsAside/SelectedPlantsAside.jsx";
-import {CloudSun, Moon, Sun} from "phosphor-react";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import getErrorMessage from "../../../helpers/getErrorMessage.js";
 import ErrorBox from "../../ui/errorBox/ErrorBox.jsx";
 import PlantCard from "../../layout/plantCard/PlantCard.jsx"
+import { useAuth } from "../../../context/AuthContext.jsx";
+
 
 
 
 function PlantcatalogPage(){
-
+    const { jwt, role } = useAuth(); // use context
     const [plants, setPlants] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [user, setUser] = useState(null);
     const [selectedPlants, setSelectedPlants] = useState([]);
 
     //get plants from backend
     useEffect(() => {
         async function fetchData() {
+            if(!jwt) return;
             try {
-                const jwt = localStorage.getItem("jwt");
 
                 const plantsResponse = await axios.get("http://localhost:8080/plants", {
                     headers: {
                         Authorization:`Bearer ${jwt}`,
                     },
                 });
-
-                const userResponse = await axios.get("http://localhost:8080/users/me",
-                    {
-                        headers: {
-                            Authorization:`Bearer ${jwt}`,
-                        },
-                    }
-                );
-
                 setPlants(plantsResponse.data);
-                setUser(userResponse.data);
+
 
             }catch (err) {
                 console.error("Planten konden niet worden opgehaald", err);
@@ -53,15 +42,49 @@ function PlantcatalogPage(){
             }
         }
         fetchData();
-        }, []);
+        }, [jwt]);
+
+    //get SelectedPlants from the Design of the user
+
+    useEffect(() => {
+    async function fetchDesign() {
+        if (!jwt || role !== "DESIGNER") return;//only get design when user has the role DESIGNER
+        try {
+            const response = await axios.get(
+                "http://localhost:8080/designs/me",
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                }
+            );
+            setSelectedPlants(response.data.selectedPlantDtoSet || []);
+        } catch (error) {
+            setError("Kon tuinontwerp niet ophalen");
+        }
+    }
+    fetchDesign();
+    }, [jwt, role ]);
+
+    // timer for errorbox: error should disappear after 5 seconds
+    useEffect(() => {
+        if (!error) return;
+
+        const timer = setTimeout(() => {
+            setError(""); // clear error
+        }, 5000); // 5 seconds
+
+        return () => clearTimeout(timer); // cleanup afterwards
+    }, [error]);
+
 
     //Delete plant from catalog (admin only)
     async function handleDelete(plantId){
+        if (!jwt || role !== "ADMIN" ) return;
         const confirmed = window.confirm("Weet je zeker dat je deze plant wilt verwijderen?");
         if (!confirmed) return;
 
         try {
-            const jwt = localStorage.getItem("jwt");
             await axios.delete(`http://localhost:8080/plants/${plantId}`, {
                 headers: {
                     Authorization:`Bearer ${jwt}`,
@@ -76,39 +99,13 @@ function PlantcatalogPage(){
         }
     }
 
-    //get SelectedPlants from the Design of the user
-    async function fetchDesign() {
 
-
-        try {
-            const jwt = localStorage.getItem("jwt");
-
-            const response = await axios.get(
-                "http://localhost:8080/designs/me",
-                {
-                    headers: {
-                        Authorization: `Bearer ${jwt}`,
-                    },
-                }
-            );
-
-            setSelectedPlants(response.data.selectedPlantDtoSet || []);
-        } catch (error) {
-            setError("Kon tuinontwerp niet ophalen");
-        }
-    }
-    //useEffect to load design (DESIGNER role only)
-    useEffect(() => {
-        if(user?.role === "DESIGNER" )
-        fetchDesign();
-    }, [user]);
 
 
     //add reference to a plant and an amount to selectedPlant list (designer only)
     async function handleAddToSelectedPlants(plantId) {
+        if (!jwt || role !== "DESIGNER") return
         try {
-            const jwt = localStorage.getItem("jwt");
-
             const response = await axios.post(
                 "http://localhost:8080/designs/me/selected-plants",
                 {
@@ -123,7 +120,7 @@ function PlantcatalogPage(){
             );
 
             // backend returns a new SelectedPlantDto and frontend State is updated
-            await fetchDesign(); //refresh Design
+            setSelectedPlants(response.data.selectedPlantDtoSet || []);
             alert("Plant is toegevoegd aan jouw ontwerp");
 
         } catch (error) {
@@ -134,11 +131,8 @@ function PlantcatalogPage(){
 
     //edit the amount of a plant on the selectedPlants list:
     async function handleUpdateSelectedPlantAmount(selectedPlantId, newAmount) {
-
-
+        if (!jwt || role !== "DESIGNER") return;
         try {
-            const jwt = localStorage.getItem("jwt");
-
             await axios.patch(
                 `http://localhost:8080/designs/me/selected-plants/${selectedPlantId}?amount=${newAmount}`,
                 null,
@@ -166,9 +160,8 @@ function PlantcatalogPage(){
 
     // Delete a selected plant from the Design (designer only)
     async function handleDeleteSelectedPlant(selectedPlantId) {
+        if (!jwt || role !== "DESIGNER") return;
         try {
-            const jwt = localStorage.getItem("jwt");
-
             await axios.delete(
                 `http://localhost:8080/designs/me/selected-plants/${selectedPlantId}`,
                 {
@@ -206,7 +199,7 @@ function PlantcatalogPage(){
                     {loading && <p> Planten laden...</p>}
 
 
-                    {user?.role === "ADMIN" && (
+                    {role === "ADMIN" && (
                         <Link to="/plants/new">
 
                             <Button type="button">
@@ -221,36 +214,12 @@ function PlantcatalogPage(){
                 <ul>
                     {plants.map((plant) => (
                         <li key={plant.id } className={styles.plantItem}>
-                            <PlantCard plant = {plant} />
-
-                            {/* button for designer users*/}
-                            {user?.role === "DESIGNER" && (
-                                <Button
-                                    type="button"
-                                    onClick={() => handleAddToSelectedPlants(plant.id)}
-                                >
-                                    Toevoegen aan ontwerp
-                                </Button>
-                            )}
-
-
-                            {/*buttons for admin users*/}
-                            {user?.role === "ADMIN" && (
-                                <>
-                                <Link to={`/plants/${plant.id}/edit`}>
-                                    <Button type="button">
-                                        Bewerken
-                                    </Button>
-                                </Link>
-
-                                <Button
-                                    type = "button"
-                                    onClick = {() => handleDelete(plant.id)}
-                                >
-                                    Verwijderen
-                                </Button>
-                                </>
-                            )}
+                            <PlantCard
+                                plant = {plant}
+                                userRole={role}
+                                onAddToDesign={handleAddToSelectedPlants}
+                                onDelete={handleDelete}
+                            />
                         </li>
                     ))}
                 </ul>
@@ -259,7 +228,7 @@ function PlantcatalogPage(){
                 </section>
 
                 {/*show aside only when role === "DESIGNER"*/}
-                { user?.role === "DESIGNER" && (
+                { role === "DESIGNER" && (
                 <SelectedPlantsAside className={styles.selectedPlantsAside}
                     selectedPlants={selectedPlants}
                     onAmountChange={handleUpdateSelectedPlantAmount}
