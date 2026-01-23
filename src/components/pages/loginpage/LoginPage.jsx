@@ -6,13 +6,9 @@ import LoginForm from "../../forms/loginForm/LoginForm.jsx";
 import NewAccountForm from "../../forms/newAccountForm/NewAccountForm.jsx";
 import Button from "../../ui/button/Button.jsx";
 
-function LoginPage({onLogin}) {
+function LoginPage() {
     //use state to determine which form is active
     const[activeForm, toggleActiveForm] = useState("")
-
-    function handleLoginSuccess(jwt){
-        onLogin(jwt);
-    }
 
     return (
         <>
@@ -46,9 +42,9 @@ function LoginPage({onLogin}) {
 
             {(activeForm === "login" || activeForm === "register") && (
             <section id="login-form-section">
-            {activeForm ==="login" && <LoginForm onLogin={handleLoginSuccess} />}
+            {activeForm ==="login" && <LoginForm />}
                 {activeForm ==="register" && <NewAccountForm endpoint="http://localhost:8080/users/register"
-                                                                 title="Nieuw account maken" onRegistration={handleLoginSuccess}/>}
+                                                                 title="Nieuw account maken" />}
             </section>
                 )}
 

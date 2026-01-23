@@ -5,8 +5,11 @@ import FormInputField from "../../ui/formInputField/FormInputField.jsx";
 import styles from "./LoginForm.module.css"
 import axios from "axios";
 import { useNavigate} from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
-function LoginForm({onLogin}) {
+
+function LoginForm() {
+    const{login} = useAuth();
 
     const [credentials, setCredentials] = useState({
         username: "",
@@ -33,12 +36,10 @@ function LoginForm({onLogin}) {
         try {
             const response = await axios.post("http://localhost:8080/login", credentials);
             const jwt = response.data;
-            localStorage.setItem("jwt",jwt);  //obtain jwt from response of API call and put it in localstorage
 
-            if(onLogin) {
-                onLogin(jwt);
-                navigate("/overview");
-            }
+            //utitize useAuth from AuthContext to store jwt
+            login(jwt);
+            navigate("/overview");
 
         } catch (err) {
             setError("Inloggen mislukt. probeer het nog eens")

@@ -4,8 +4,11 @@ import ErrorBox from "../../ui/errorBox/ErrorBox.jsx";
 import FormInputField from "../../ui/formInputField/FormInputField.jsx";
 import styles from "./NewAccountForm.module.css"
 import axios from "axios";
+import { useAuth } from "../../../context/AuthContext";
+
 
 function NewAccountForm({endpoint, title, onRegistration}) {
+    const{jwt} = useAuth();
     const [credentials, setCredentials] = useState({
         username: "",
         password: "",
@@ -31,16 +34,14 @@ function NewAccountForm({endpoint, title, onRegistration}) {
         }
 
         try {
-          const jwt = localStorage.getItem("jwt");
-
-          await axios.post(endpoint,
+          const response = await axios.post(endpoint,
               {
                   username:credentials.username,
                   password:credentials.password
               },
               jwt
                   ? { headers: { Authorization: `Bearer ${jwt}` } }
-                  : undefined //if the header contains an Authorization (needed to creat admin account) use jwt, else  Autherization is undefined
+                  : undefined //if the header contains an Authorization (needed to creat admin account) use jwt, else  Authorization is undefined
               );
             alert("Account succesvol aangemaakt!");
 

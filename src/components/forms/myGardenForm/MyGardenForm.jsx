@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MyGardenResult from "../../MyGardenResult.jsx";
+
 import axios from "axios";
 import getErrorMessage from "../../../helpers/getErrorMessage.js";
 import normalizeDecimal from "../../../helpers/normalizeDecimal.js";
@@ -175,8 +175,7 @@ function MyGardenForm() {
             </form>
 
 
-            {/* result of form answers*/}
-           {/*<MyGardenResult gardenValues={gardenValues}/>*/}
+
 
         </>
     );
