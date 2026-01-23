@@ -10,7 +10,11 @@ nav{
     background-color: var(--tea-green);
 }
 
-.userInfo{}
+.userInfo{
+    width: 200px;
+    color: var(--hunter-green);
+
+}
 
 
 

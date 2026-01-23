@@ -10,9 +10,11 @@ import getErrorMessage from "../../../helpers/getErrorMessage.js";
 import ErrorBox from "../../ui/errorBox/ErrorBox.jsx";
 import normalizeDecimal from "../../../helpers/normalizeDecimal.js";
 import mapPlantDtoToFormState from "../../../helpers/mapPlantDtoToFormState.js";
+import { useAuth } from "../../../context/AuthContext.jsx";
 
 
 function PlantForm({mode}){
+    const { jwt } = useAuth();
     const {id} = useParams();
     const navigate = useNavigate();
     const [image, setImage] = useState(null);
@@ -57,7 +59,6 @@ function PlantForm({mode}){
 
         async function fetchPlant(){
             try{
-                const jwt = localStorage.getItem("jwt");
 
                 const response = await axios.get(
                     `http://localhost:8080/plants/${id}`,
@@ -105,7 +106,6 @@ function PlantForm({mode}){
     const handleSubmit = async (e) =>{
         e.preventDefault();
         try{
-            const jwt = localStorage.getItem("jwt");
             const formData = buildFormData();
 
             //if the page is in edit-mode, do PUT request, else do POST request
@@ -187,6 +187,16 @@ function PlantForm({mode}){
         setImage(file);
     }
 
+    // timer for errorbox: error should disappear after 5 seconds
+    useEffect(() => {
+        if (!error) return;
+
+        const timer = setTimeout(() => {
+            setError(""); // clear error
+        }, 10000); // 10 seconds
+
+        return () => clearTimeout(timer); // cleanup afterwards
+    }, [error]);
 
 
     return(

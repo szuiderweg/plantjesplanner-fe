@@ -3,10 +3,12 @@ import styles from "./SelectedPlantsAside.module.css"
 import FormInputField from "../../ui/formInputField/FormInputField.jsx";
 import Button from "../../ui/button/Button.jsx";
 
+
 function SelectedPlantsAside({ selectedPlants = [] , onAmountChange, onDelete }) {
     //editing amounts of selected plant is done using a form + submit button.
     //initial values from selectedPlants (selectedPlant.id and selectedPlant.amount) are loaded and stored in a state object that the form can access.
     const [formValues, setFormValues] = useState({});
+
 
 
     useEffect(() => {
@@ -40,7 +42,7 @@ function SelectedPlantsAside({ selectedPlants = [] , onAmountChange, onDelete })
     if (!selectedPlants || selectedPlants.length === 0) { //message when selectedPlant list is empty
         return (
             <aside className={styles.aside}>
-                <h3 className={styles.title}>Gekozen planten</h3>
+                <h3 className={styles.title}>Mijn planten</h3>
                 <p>Je hebt nog geen planten toegevoegd.</p>
             </aside>
         );

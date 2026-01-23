@@ -3,20 +3,17 @@ import {  NavLink, useNavigate } from 'react-router-dom';
 import styles from './NavigationBar.module.css';
 import {House, SignOut} from "phosphor-react";
 import Button from "../../ui/button/Button.jsx";
+import { useAuth } from "../../../context/AuthContext.jsx";
 
 function NavigationBar(){
 
     const navigate = useNavigate();
-    //constants needed for logout function "handleLogout"
-    const role = localStorage.getItem("role"); // "DESIGNER" or "ADMIN"
-    const username = localStorage.getItem("username");
+    const { user, username, role, logout } = useAuth();
+
 
     //log out by deleting credentials and jwt from local storage. the Routing defined below will automatically redirect to login page when there is no jwt present
     function handleLogout() {
-        localStorage.removeItem("jwt");
-        localStorage.removeItem("role");
-        localStorage.removeItem("username");
-
+        logout();
         navigate("/");
     }
 
