@@ -1,6 +1,8 @@
 import React from "react";
 import NavigationBar from "../../layout/navigationbar/NavigationBar.jsx";
 import NewAccountForm from "../../forms/newAccountForm/NewAccountForm.jsx";
+import {Navigate} from "react-router-dom";
+
 
 function UserManagementPage() {
     return (
