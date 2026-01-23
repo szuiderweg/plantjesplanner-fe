@@ -4,7 +4,7 @@ import defaultPlant from '../../../assets/default_plant.jpg';
 import {Flower} from "phosphor-react";
 import axios from "axios";
 
-function PlantCard({ plant }){
+function PlantCard({ plant,  }){
     const [isOpen, setIsOpen] = useState(false);//registers if drop-down part of <details> element is open or not
     const [imageUrl, setImageUrl] = useState(null);// URL to plant avatarimage
     const [imageError, setImageError] = useState(false);// trigger for fallback is case of missing image
@@ -59,8 +59,7 @@ function PlantCard({ plant }){
     return(
         <details className={styles.card} onToggle={handleToggle}>
             <summary className={styles.summary}>
-                <span >{plant.dutchName}</span>
-                <span >{plant.latinName}</span>
+                <span>{plant.dutchName} - {plant.latinName} </span>
             </summary>
 
         {/*    dropdown content*/}
@@ -88,7 +87,7 @@ function PlantCard({ plant }){
                     )}
                 </div>
 
-                {/* show plant info RIGHT */}
+                {/* show plant info MIDDLE */}
                 <div className={styles.detailsColumn}>
                     <p>
                         {plant.description}
@@ -96,20 +95,20 @@ function PlantCard({ plant }){
 
                     <h4>Standplaats & eigenschappen</h4>
                     <ul className={styles.localeList}>
-                        <li>Zonlicht: {plant.localeDto.sunlight}</li>
-                        <li>Vocht: {plant.localeDto.moisture}</li>
-                        <li>Wind: {plant.localeDto.windTolerance}</li>
-                        <li>Bodem: {plant.localeDto.soilType}</li>
+                        <li>Zonlicht: {plant.localeDto.sunlight}, Vocht: {plant.localeDto.moisture}, Wind: {plant.localeDto.windTolerance}</li>
+
+
                         <li>
                             Alleen volle grond:{" "}
                             {plant.localeDto.openGroundOnly ? "Ja" : "Nee"}
                         </li>
+                        <li>Bodem: {plant.localeDto.soilType}</li>
                     </ul>
 
                     <h4>Afmetingen</h4>
                     <ul>
-                        <li>Hoogte: {plant.height} m</li>
-                        <li>Oppervlak: {plant.footprint} m²</li>
+                        <li>Hoogte: {plant.height} m, Oppervlak: {plant.footprint} m²</li>
+                        <li></li>
                     </ul>
 
                     <h4>Bloeiperiode</h4>

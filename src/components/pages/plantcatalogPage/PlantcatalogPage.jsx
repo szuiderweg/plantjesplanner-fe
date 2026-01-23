@@ -15,6 +15,7 @@ import PlantCard from "../../layout/plantCard/PlantCard.jsx"
 
 
 function PlantcatalogPage(){
+
     const [plants, setPlants] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -191,7 +192,6 @@ function PlantcatalogPage(){
 
 
 
-
     return(
         <>
             <header>
@@ -208,6 +208,7 @@ function PlantcatalogPage(){
 
                     {user?.role === "ADMIN" && (
                         <Link to="/plants/new">
+
                             <Button type="button">
                                 Nieuwe plant
                             </Button>
