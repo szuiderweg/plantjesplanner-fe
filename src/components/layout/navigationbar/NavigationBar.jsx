@@ -22,8 +22,8 @@ function NavigationBar(){
     return(
         <>
             <nav>
-                <ul>
-                    <li>
+                <ul className={styles.navList}>
+                    <li className={styles.navItem}>
                         {/*Overview page "Start" -- all roles */}
                         <NavLink
                         className={({ isActive}) => isActive ? 'active-menu-link':'default-menu-link'}
@@ -35,7 +35,7 @@ function NavigationBar(){
 
                     {/*Plant catalog page " Planten catalogus -- all roles"*/}
 
-                    <li>
+                    <li className={styles.navItem}>
                         <NavLink
                             className={({ isActive}) => isActive ? 'active-menu-link':'default-menu-link'}
                             to = "/catalog">
@@ -45,7 +45,7 @@ function NavigationBar(){
 
                     {/* MyGarden page "Mijn tuin" -- DESIGNER only*/}
                     {role?.toUpperCase() === "DESIGNER" && (
-                    <li>
+                    <li className={styles.navItem}>
                         <NavLink
                         className={({ isActive}) => isActive ? 'active-menu-link':'default-menu-link'}
                         to = "/my-garden">
@@ -56,7 +56,7 @@ function NavigationBar(){
 
                     {/* Usermanagement page "Accounts beheren" -- ADMIN only*/}
                     { role?.toUpperCase() === "ADMIN" && (
-                        <li>
+                        <li className={styles.navItem}>
                         <NavLink
                         className={({ isActive}) => isActive ? 'active-menu-link':'default-menu-link'}
                         to = "/usermanagement">
@@ -65,18 +65,18 @@ function NavigationBar(){
                     </li>
                     )}
 
-                    <li className={styles.userInfo}>
+                    <li className={styles.navItem}>
                         <span>{username}</span>
                     </li>
 
 
-                    <li>
+                    <li  className={styles.navItem}>
 
                     <Button
                         type="button"
                         onClick={handleLogout}
                     >
-                        <SignOut size={32} color="#3b4d3c" weight="fill" /> Uitloggen
+                        <SignOut size={32} color="#eef3eb" weight="fill" /> Uitloggen
                     </Button>
                     </li>
 
